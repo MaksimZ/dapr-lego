@@ -56,9 +56,9 @@ iam:
       - "arn:aws:iam::833200667006:policy/AWSLoadBalancerControllerIAMPolicy"
 nodeGroups:
   - name: ng-1
-    instanceType: t2.medium
+    instanceType: t2.micro
     minSize: 1
-    maxSize: 4
+    maxSize: 6
     desiredCapacity: 2
     privateNetworking: false # if only 'Private' subnets are given, this must be enabled
     iam:
