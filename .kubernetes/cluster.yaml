@@ -1,0 +1,81 @@
+--- 
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: dapr-lego-01
+  region: eu-west-1
+
+vpc:
+  id: vpc-0830336e  # (optional, must match VPC ID used for each subnet below)
+
+  subnets:
+    public:
+      eu-west-1a:
+        id: "subnet-46aee20e"
+      eu-west-1b:
+        id: "subnet-f7813fad"
+      eu-west-1c:
+        id: "subnet-0c314d6a"
+
+iam:
+  withOIDC: true
+  serviceAccounts:
+    - metadata:
+        name: fullaccess
+        # if no namespace is set, "default" will be used;
+        # the namespace will be created if it doesn't exist already
+        namespace: default
+        labels: {aws-usage: "application"}
+      attachPolicyARNs:
+      - "arn:aws:iam::aws:policy/AdministratorAccess"
+    - metadata:
+        name: sqsfull
+        # if no namespace is set, "default" will be used;
+        # the namespace will be created if it doesn't exist already
+        namespace: default
+        labels: {aws-usage: "application"}
+      attachPolicyARNs:
+      - arn:aws:iam::aws:policy/AmazonSQSFullAccess
+    - metadata:
+        name: ssmreadonly
+        # if no namespace is set, "default" will be used;
+        # the namespace will be created if it doesn't exist already
+        namespace: default
+        labels: {aws-usage: "application"}
+      attachPolicyARNs:
+      - "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
+      - "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+    - metadata:
+        name: alb-ingress-controller
+        # if no namespace is set, "default" will be used;
+        # the namespace will be created if it doesn't exist already
+        namespace: kube-system
+        labels: {aws-usage: "application"}
+      attachPolicyARNs:
+      - "arn:aws:iam::833200667006:policy/AWSLoadBalancerControllerIAMPolicy"
+nodeGroups:
+  - name: ng-1
+    instanceType: t2.medium
+    minSize: 1
+    maxSize: 4
+    desiredCapacity: 2
+    privateNetworking: false # if only 'Private' subnets are given, this must be enabled
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
+        - arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess
+        - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+      withAddonPolicies:
+        imageBuilder: true
+        ebs: true
+        autoScaler: true
+        externalDNS: false
+        certManager: true
+        albIngress: true
+        cloudWatch: true
+cloudWatch:
+  clusterLogging:
+      enableTypes: ["*"]
