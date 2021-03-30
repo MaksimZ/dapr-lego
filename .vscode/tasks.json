@@ -99,7 +99,8 @@
             "appPort": 5000,
             "label": "daprd-debug-characters-api",
             "type": "daprd",
-            "dependsOn": "build-characterapi"
+            "dependsOn": "build-characterapi",
+            "componentsPath": "${workspaceFolder}/components"
         },
         {
             "appId": "characters-api",
@@ -111,7 +112,8 @@
             "appPort": 5001,
             "label": "daprd-debug-location-api",
             "type": "daprd",
-            "dependsOn": "build-locationapi"
+            "dependsOn": "build-locationapi",
+            "componentsPath": "${workspaceFolder}/components"
         },
         {
             "appId": "location-api",
@@ -123,7 +125,8 @@
             "appPort": 5002,
             "label": "daprd-debug-quest-api",
             "type": "daprd",
-            "dependsOn": "build-questapi"
+            "dependsOn": "build-questapi",
+            "componentsPath": "${workspaceFolder}/components"
         },
         {
             "appId": "quest-api",
@@ -135,7 +138,8 @@
             "appPort": 5003,
             "label": "daprd-debug-characters",
             "type": "daprd",
-            "dependsOn": "build-characters"
+            "dependsOn": "build-characters",
+            "componentsPath": "${workspaceFolder}/components"
         },
         {
             "appId": "characters",
@@ -147,7 +151,8 @@
             "appPort": 5004,
             "label": "daprd-debug-locations",
             "type": "daprd",
-            "dependsOn": "build-locations"
+            "dependsOn": "build-locations",
+            "componentsPath": "${workspaceFolder}/components"
         },
         {
             "appId": "locations",
@@ -160,6 +165,7 @@
             "label": "daprd-debug-quests",
             "type": "daprd",
             "dependsOn": "build-quests",
+            "componentsPath": "${workspaceFolder}/components"
         },
         {
             "appId": "quests",
