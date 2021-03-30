@@ -62,7 +62,7 @@
             "preLaunchTask": "daprd-characters",
             "program": "${workspaceFolder}/Actors/Characters/bin/Debug/net5.0/Characters.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Api/Characters",
+            "cwd": "${workspaceFolder}/Actors/Characters",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -79,7 +79,7 @@
             "preLaunchTask": "daprd-locations",
             "program": "${workspaceFolder}/Actors/Locations/bin/Debug/net5.0/Locations.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Api/Locations",
+            "cwd": "${workspaceFolder}/Actors/Locations",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -96,7 +96,7 @@
             "preLaunchTask": "daprd-quests",
             "program": "${workspaceFolder}/Actors/Quests/bin/Debug/net5.0/Quests.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Api/Quests",
+            "cwd": "${workspaceFolder}/Actors/Quests",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
