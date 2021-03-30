@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Character = Entities.Character;
-using Location = Entities.Location;
-using Message = ActorInterfaces.Models.Message;
-using Quest = Entities.Quest;
+using Character = Common.Entities.Character;
+using Location = Common.Entities.Location;
+using Message = Common.ActorInterfaces.Models.Message;
+using Quest = Common.Entities.Quest;
+using Dapr.Actors;
 
 
-namespace ActorInterfaces
+namespace Common.ActorInterfaces
 {
-	public interface ICharacterActor
+	public interface ICharacterActor: IActor
 	{
         Task MoveTo(Location location);
         Task Attack(Character character);

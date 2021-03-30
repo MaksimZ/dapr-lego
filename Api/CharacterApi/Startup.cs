@@ -31,6 +31,10 @@ namespace CharacterApi
 				.AddControllers()
 				.AddDapr();
 
+			services
+				.AddScoped<Services.ICharacterService>(null);
+
+
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "CharacterApi", Version = "v1" });

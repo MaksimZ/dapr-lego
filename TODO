@@ -9,7 +9,7 @@
 [_]  Create components
 [_]  ECR
 [_]  Deploy to k8s
-[_]  Create test scenario
+[X]  Create test scenario
 [_]  Creation/deployment/improvement showcase scenario
 [_]  Craete client
 [_]  Optimize resource usage

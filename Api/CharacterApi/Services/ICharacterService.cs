@@ -11,6 +11,7 @@ namespace CharacterApi.Services
         Task<IEnumerable<Models.ActionViewModel>> GetActions(string characterId);
         Task<IEnumerable<Models.CharacterViewModel>> GetCharacters(string characterId);
         Task<Models.CharacterViewModel> GetSelf(string characterId);
-        Task PerformAction(string action, string id);
+        Task<Models.CharacterViewModel> CreateChar(string name, string bio);
+        Task PerformAction(string characterId, string action, string targetId);
 	}
 }

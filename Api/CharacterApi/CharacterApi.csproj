@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Entities\Entities.csproj" />
+    <ProjectReference Include="..\..\Common\ActorInterfaces\ActorInterfaces.csproj" />
   </ItemGroup>
 
 </Project>

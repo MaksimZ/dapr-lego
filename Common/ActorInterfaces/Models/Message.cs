@@ -1,10 +1,10 @@
-using System;
+using Common.Entities;
 
-namespace ActorInterfaces.Models
+namespace Common.ActorInterfaces.Models
 {
 	public class Message
 	{
-		public Entities.Character Recepient { get; set; }
+		public Character Recepient { get; set; }
 		public string MessageText { get; set; }
 	}
 }
