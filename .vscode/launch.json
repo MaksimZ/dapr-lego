@@ -1,0 +1,124 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "coreclr",
+            "request": "launch",
+            "name": ".NET Core Launch w/Dapr (CharacterApi)",
+            "preLaunchTask": "daprd-characterapi",
+            "program": "${workspaceFolder}/Api/CharacterApi/bin/Debug/net5.0/CharacterApi.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Api/CharacterApi",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        {
+            "type": "coreclr",
+            "request": "launch",
+            "name": ".NET Core Launch w/Dapr (LocationApi)",
+            "preLaunchTask": "daprd-locationapi",
+            "program": "${workspaceFolder}/Api/LocationApi/bin/Debug/net5.0/LocationApi.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Api/LocationApi",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        {
+            "type": "coreclr",
+            "request": "launch",
+            "name": ".NET Core Launch w/Dapr (QuestApi)",
+            "preLaunchTask": "daprd-questapi",
+            "program": "${workspaceFolder}/Api/QuestApi/bin/Debug/net5.0/QuestApi.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Api/QuestApi",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        {
+            "type": "coreclr",
+            "request": "launch",
+            "name": ".NET Core Launch w/Dapr (Characters)",
+            "preLaunchTask": "daprd-characters",
+            "program": "${workspaceFolder}/Actors/Characters/bin/Debug/net5.0/Characters.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Api/Characters",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        {
+            "type": "coreclr",
+            "request": "launch",
+            "name": ".NET Core Launch w/Dapr (Locations)",
+            "preLaunchTask": "daprd-locations",
+            "program": "${workspaceFolder}/Actors/Locations/bin/Debug/net5.0/Locations.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Api/Locations",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        {
+            "type": "coreclr",
+            "request": "launch",
+            "name": ".NET Core Launch w/Dapr (Quests)",
+            "preLaunchTask": "daprd-quests",
+            "program": "${workspaceFolder}/Actors/Quests/bin/Debug/net5.0/Quests.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Api/Quests",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Whole system",
+            "configurations": [
+                ".NET Core Launch w/Dapr (CharacterApi)",
+                ".NET Core Launch w/Dapr (Characters)",
+                ".NET Core Launch w/Dapr (LocationApi)",
+                ".NET Core Launch w/Dapr (Locations)",
+                ".NET Core Launch w/Dapr (QuestApi)",
+                ".NET Core Launch w/Dapr (Quests)"
+            ],
+            "preLaunchTask": "build"
+        }
+    ]
+}

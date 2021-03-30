@@ -1,0 +1,211 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/dapr-showcase.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "daprd-characterapi",
+            "command": "/root/.dapr/bin/daprd",
+            "args": [
+                "-app-id",
+                "characterapi",
+                "-app-port",
+                "5000",
+                "-dapr-http-port",
+                "51000",
+                "-dapr-grpc-port",
+                "52000",
+                "-placement-host-address",
+                "localhost:50005"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": [
+                    {
+                      "regexp": ".",
+                      "file": 1,
+                      "location": 2,
+                      "message": 3
+                    }
+                ],
+                "background": {
+                    "beginsPattern": "^.*starting Dapr Runtime.*",
+                    "endsPattern": "^.*waiting on port.*"
+                }
+            },
+            "dependsOn": "build"
+        },
+        {
+            "label": "daprd-locationapi",
+            "command": "/root/.dapr/bin/daprd",
+            "args": [
+                "-app-id",
+                "locationapi",
+                "-app-port",
+                "5001",
+                "-dapr-http-port",
+                "51001",
+                "-dapr-grpc-port",
+                "52001",
+                "-placement-host-address",
+                "localhost:50005"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": [
+                    {
+                      "regexp": ".",
+                      "file": 1,
+                      "location": 2,
+                      "message": 3
+                    }
+                ],
+                "background": {
+                    "beginsPattern": "^.*starting Dapr Runtime.*",
+                    "endsPattern": "^.*waiting on port.*"
+                }
+            },
+            "dependsOn": "build"
+        },
+        {
+            "label": "daprd-questapi",
+            "command": "/root/.dapr/bin/daprd",
+            "args": [
+                "-app-id",
+                "questapi",
+                "-app-port",
+                "5002",
+                "-dapr-http-port",
+                "51002",
+                "-dapr-grpc-port",
+                "52002",
+                "-placement-host-address",
+                "localhost:50005"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": [
+                    {
+                      "regexp": ".",
+                      "file": 1,
+                      "location": 2,
+                      "message": 3
+                    }
+                ],
+                "background": {
+                    "beginsPattern": "^.*starting Dapr Runtime.*",
+                    "endsPattern": "^.*waiting on port.*"
+                }
+            },
+            "dependsOn": "build"
+        },
+        {
+            "label": "daprd-characters",
+            "command": "/root/.dapr/bin/daprd",
+            "args": [
+                "-app-id",
+                "characters",
+                "-app-port",
+                "5003",
+                "-dapr-http-port",
+                "51003",
+                "-dapr-grpc-port",
+                "52003",
+                "-placement-host-address",
+                "localhost:50005"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": [
+                    {
+                      "regexp": ".",
+                      "file": 1,
+                      "location": 2,
+                      "message": 3
+                    }
+                ],
+                "background": {
+                    "beginsPattern": "^.*starting Dapr Runtime.*",
+                    "endsPattern": "^.*waiting on port.*"
+                }
+            },
+            "dependsOn": "build"
+        },
+        {
+            "label": "daprd-locations",
+            "command": "/root/.dapr/bin/daprd",
+            "args": [
+                "-app-id",
+                "locations",
+                "-app-port",
+                "5004",
+                "-dapr-http-port",
+                "51004",
+                "-dapr-grpc-port",
+                "52004",
+                "-placement-host-address",
+                "localhost:50005"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": [
+                    {
+                      "regexp": ".",
+                      "file": 1,
+                      "location": 2,
+                      "message": 3
+                    }
+                ],
+                "background": {
+                    "beginsPattern": "^.*starting Dapr Runtime.*",
+                    "endsPattern": "^.*waiting on port.*"
+                }
+            },
+            "dependsOn": "build"
+        },
+        {
+            "label": "daprd-quests",
+            "command": "/root/.dapr/bin/daprd",
+            "args": [
+                "-app-id",
+                "quests",
+                "-app-port",
+                "5005",
+                "-dapr-http-port",
+                "51005",
+                "-dapr-grpc-port",
+                "52005",
+                "-placement-host-address",
+                "localhost:50005"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": [
+                    {
+                      "regexp": ".",
+                      "file": 1,
+                      "location": 2,
+                      "message": 3
+                    }
+                ],
+                "background": {
+                    "beginsPattern": "^.*starting Dapr Runtime.*",
+                    "endsPattern": "^.*waiting on port.*"
+                }
+            },
+            "dependsOn": "build"
+        }
+    ]
+}
