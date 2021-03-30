@@ -13,199 +13,158 @@
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
+            "group": "build",
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "daprd-characterapi",
-            "command": "/root/.dapr/bin/daprd",
+            "label": "build-characterapi",
+            "command": "dotnet",
+            "type": "process",
             "args": [
-                "-app-id",
-                "characterapi",
-                "-app-port",
-                "5000",
-                "-dapr-http-port",
-                "51000",
-                "-dapr-grpc-port",
-                "52000",
-                "-placement-host-address",
-                "localhost:50005"
+                "build",
+                "${workspaceFolder}/Api/CharacterApi/CharacterApi.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
             ],
-            "isBackground": true,
-            "problemMatcher": {
-                "pattern": [
-                    {
-                      "regexp": ".",
-                      "file": 1,
-                      "location": 2,
-                      "message": 3
-                    }
-                ],
-                "background": {
-                    "beginsPattern": "^.*starting Dapr Runtime.*",
-                    "endsPattern": "^.*waiting on port.*"
-                }
-            },
-            "dependsOn": "build"
+            "group": "build",
+            "problemMatcher": "$msCompile"
         },
         {
-            "label": "daprd-locationapi",
-            "command": "/root/.dapr/bin/daprd",
+            "label": "build-locationapi",
+            "command": "dotnet",
+            "type": "process",
             "args": [
-                "-app-id",
-                "locationapi",
-                "-app-port",
-                "5001",
-                "-dapr-http-port",
-                "51001",
-                "-dapr-grpc-port",
-                "52001",
-                "-placement-host-address",
-                "localhost:50005"
+                "build",
+                "${workspaceFolder}/Api/LocationApi/LocationApi.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
             ],
-            "isBackground": true,
-            "problemMatcher": {
-                "pattern": [
-                    {
-                      "regexp": ".",
-                      "file": 1,
-                      "location": 2,
-                      "message": 3
-                    }
-                ],
-                "background": {
-                    "beginsPattern": "^.*starting Dapr Runtime.*",
-                    "endsPattern": "^.*waiting on port.*"
-                }
-            },
-            "dependsOn": "build"
+            "group": "build",
+            "problemMatcher": "$msCompile"
         },
         {
-            "label": "daprd-questapi",
-            "command": "/root/.dapr/bin/daprd",
+            "label": "build-questapi",
+            "command": "dotnet",
+            "type": "process",
             "args": [
-                "-app-id",
-                "questapi",
-                "-app-port",
-                "5002",
-                "-dapr-http-port",
-                "51002",
-                "-dapr-grpc-port",
-                "52002",
-                "-placement-host-address",
-                "localhost:50005"
+                "build",
+                "${workspaceFolder}/Api/QuestApi/QuestApi.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
             ],
-            "isBackground": true,
-            "problemMatcher": {
-                "pattern": [
-                    {
-                      "regexp": ".",
-                      "file": 1,
-                      "location": 2,
-                      "message": 3
-                    }
-                ],
-                "background": {
-                    "beginsPattern": "^.*starting Dapr Runtime.*",
-                    "endsPattern": "^.*waiting on port.*"
-                }
-            },
-            "dependsOn": "build"
+            "group": "build",
+            "problemMatcher": "$msCompile"
         },
         {
-            "label": "daprd-characters",
-            "command": "/root/.dapr/bin/daprd",
+            "label": "build-characters",
+            "command": "dotnet",
+            "type": "process",
             "args": [
-                "-app-id",
-                "characters",
-                "-app-port",
-                "5003",
-                "-dapr-http-port",
-                "51003",
-                "-dapr-grpc-port",
-                "52003",
-                "-placement-host-address",
-                "localhost:50005"
+                "build",
+                "${workspaceFolder}/Actors/Characters/Characters.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
             ],
-            "isBackground": true,
-            "problemMatcher": {
-                "pattern": [
-                    {
-                      "regexp": ".",
-                      "file": 1,
-                      "location": 2,
-                      "message": 3
-                    }
-                ],
-                "background": {
-                    "beginsPattern": "^.*starting Dapr Runtime.*",
-                    "endsPattern": "^.*waiting on port.*"
-                }
-            },
-            "dependsOn": "build"
+            "group": "build",
+            "problemMatcher": "$msCompile"
         },
         {
-            "label": "daprd-locations",
-            "command": "/root/.dapr/bin/daprd",
+            "label": "build-locations",
+            "command": "dotnet",
+            "type": "process",
             "args": [
-                "-app-id",
-                "locations",
-                "-app-port",
-                "5004",
-                "-dapr-http-port",
-                "51004",
-                "-dapr-grpc-port",
-                "52004",
-                "-placement-host-address",
-                "localhost:50005"
+                "build",
+                "${workspaceFolder}/Actors/Locations/Locations.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
             ],
-            "isBackground": true,
-            "problemMatcher": {
-                "pattern": [
-                    {
-                      "regexp": ".",
-                      "file": 1,
-                      "location": 2,
-                      "message": 3
-                    }
-                ],
-                "background": {
-                    "beginsPattern": "^.*starting Dapr Runtime.*",
-                    "endsPattern": "^.*waiting on port.*"
-                }
-            },
-            "dependsOn": "build"
+            "group": "build",
+            "problemMatcher": "$msCompile"
         },
         {
-            "label": "daprd-quests",
-            "command": "/root/.dapr/bin/daprd",
+            "label": "build-quests",
+            "command": "dotnet",
+            "type": "process",
             "args": [
-                "-app-id",
-                "quests",
-                "-app-port",
-                "5005",
-                "-dapr-http-port",
-                "51005",
-                "-dapr-grpc-port",
-                "52005",
-                "-placement-host-address",
-                "localhost:50005"
+                "build",
+                "${workspaceFolder}/Actors/Quests/Quests.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
             ],
-            "isBackground": true,
-            "problemMatcher": {
-                "pattern": [
-                    {
-                      "regexp": ".",
-                      "file": 1,
-                      "location": 2,
-                      "message": 3
-                    }
-                ],
-                "background": {
-                    "beginsPattern": "^.*starting Dapr Runtime.*",
-                    "endsPattern": "^.*waiting on port.*"
-                }
-            },
-            "dependsOn": "build"
+            "group": "build",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "appId": "characters-api",
+            "appPort": 5000,
+            "label": "daprd-debug-characters-api",
+            "type": "daprd",
+            "dependsOn": "build-characterapi"
+        },
+        {
+            "appId": "characters-api",
+            "label": "daprd-down-characters-api",
+            "type": "daprd-down"
+        },
+        {
+            "appId": "location-api",
+            "appPort": 5001,
+            "label": "daprd-debug-location-api",
+            "type": "daprd",
+            "dependsOn": "build-locationapi"
+        },
+        {
+            "appId": "location-api",
+            "label": "daprd-down-location-api",
+            "type": "daprd-down"
+        },
+        {
+            "appId": "quest-api",
+            "appPort": 5002,
+            "label": "daprd-debug-quest-api",
+            "type": "daprd",
+            "dependsOn": "build-questapi"
+        },
+        {
+            "appId": "quest-api",
+            "label": "daprd-down-quest-api",
+            "type": "daprd-down"
+        },
+        {
+            "appId": "characters",
+            "appPort": 5003,
+            "label": "daprd-debug-characters",
+            "type": "daprd",
+            "dependsOn": "build-characters"
+        },
+        {
+            "appId": "characters",
+            "label": "daprd-down-characters",
+            "type": "daprd-down"
+        },
+        {
+            "appId": "locations",
+            "appPort": 5004,
+            "label": "daprd-debug-locations",
+            "type": "daprd",
+            "dependsOn": "build-locations"
+        },
+        {
+            "appId": "locations",
+            "label": "daprd-down-locations",
+            "type": "daprd-down"
+        },
+        {
+            "appId": "quests",
+            "appPort": 5005,
+            "label": "daprd-debug-quests",
+            "type": "daprd",
+            "dependsOn": "build-quests",
+        },
+        {
+            "appId": "quests",
+            "label": "daprd-down-quests",
+            "type": "daprd-down"
         }
     ]
 }
