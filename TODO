@@ -3,13 +3,14 @@
 [X]  Create basic components
 [X]  Design system
 [X]  Create build/debug config
+[_]  Design Actors Interfaces
+[_]  Improve services
 [_]  Design Resources in details
 [_]  Create components
 [_]  ECR
 [_]  Deploy to k8s
 [_]  Create test scenario
-[_]  Design Actors Interfaces
-[_]  Improve services
 [_]  Creation/deployment/improvement showcase scenario
 [_]  Craete client
 [_]  Optimize resource usage
+[_]  Ahtorization for services
