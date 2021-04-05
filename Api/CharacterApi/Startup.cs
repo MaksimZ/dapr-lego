@@ -40,12 +40,6 @@ namespace CharacterApi
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "CharacterApi", Version = "v1" });
 			});
-			services
-				.AddActors(config =>
-				{
-					// config.Actors.RegisterActor<>();
-
-				});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,7 +61,6 @@ namespace CharacterApi
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
-				endpoints.MapActorsHandlers();
 			});
 		}
 	}
