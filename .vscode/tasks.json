@@ -97,13 +97,20 @@
         {
             "appId": "characters-api",
             "appPort": 5000,
+            "appProtocol": "http",
             "grpcPort": 50010,
             "httpPort": 3500,
             "metricsPort": 9090,
             "label": "daprd-debug-characters-api",
             "type": "daprd",
             "dependsOn": "build-characterapi",
-            "componentsPath": "${workspaceFolder}/components"
+            "componentsPath": "components",
+            "logLevel": "debug",
+            "options": {
+                "env": {
+                    "DAPR_GRPC_PORT": "666"
+                }
+            }
         },
         {
             "appId": "characters-api",
@@ -113,13 +120,15 @@
         {
             "appId": "location-api",
             "appPort": 5001,
+            "appProtocol": "http",
             "grpcPort": 50011,
             "httpPort": 3501,
             "metricsPort": 9091,
+            "placementHostAddress": "",
             "label": "daprd-debug-location-api",
             "type": "daprd",
             "dependsOn": "build-locationapi",
-            "componentsPath": "${workspaceFolder}/components"
+            "componentsPath": "components"
         },
         {
             "appId": "location-api",
@@ -129,13 +138,14 @@
         {
             "appId": "quest-api",
             "appPort": 5002,
+            "appProtocol": "http",
             "grpcPort": 50012,
             "httpPort": 3502,
             "metricsPort": 9092,
             "label": "daprd-debug-quest-api",
             "type": "daprd",
             "dependsOn": "build-questapi",
-            "componentsPath": "${workspaceFolder}/components"
+            "componentsPath": "components"
         },
         {
             "appId": "quest-api",
@@ -145,13 +155,14 @@
         {
             "appId": "characters",
             "appPort": 5003,
+            "appProtocol": "http",
             "grpcPort": 50013,
             "httpPort": 3503,
             "metricsPort": 9093,
             "label": "daprd-debug-characters",
             "type": "daprd",
             "dependsOn": "build-characters",
-            "componentsPath": "${workspaceFolder}/components"
+            "componentsPath": "components"
         },
         {
             "appId": "characters",
@@ -161,13 +172,14 @@
         {
             "appId": "locations",
             "appPort": 5004,
+            "appProtocol": "http",
             "grpcPort": 50014,
             "httpPort": 3504,
             "metricsPort": 9094,
             "label": "daprd-debug-locations",
             "type": "daprd",
             "dependsOn": "build-locations",
-            "componentsPath": "${workspaceFolder}/components"
+            "componentsPath": "components"
         },
         {
             "appId": "locations",
@@ -177,13 +189,14 @@
         {
             "appId": "quests",
             "appPort": 5005,
+            "appProtocol": "http",
             "grpcPort": 50015,
             "httpPort": 3505,
             "metricsPort": 9095,
             "label": "daprd-debug-quests",
             "type": "daprd",
             "dependsOn": "build-quests",
-            "componentsPath": "${workspaceFolder}/components"
+            "componentsPath": "components"
         },
         {
             "appId": "quests",
