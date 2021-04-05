@@ -97,6 +97,9 @@
         {
             "appId": "characters-api",
             "appPort": 5000,
+            "grpcPort": 50010,
+            "httpPort": 3500,
+            "metricsPort": 9090,
             "label": "daprd-debug-characters-api",
             "type": "daprd",
             "dependsOn": "build-characterapi",
@@ -110,6 +113,9 @@
         {
             "appId": "location-api",
             "appPort": 5001,
+            "grpcPort": 50011,
+            "httpPort": 3501,
+            "metricsPort": 9091,
             "label": "daprd-debug-location-api",
             "type": "daprd",
             "dependsOn": "build-locationapi",
@@ -123,6 +129,9 @@
         {
             "appId": "quest-api",
             "appPort": 5002,
+            "grpcPort": 50012,
+            "httpPort": 3502,
+            "metricsPort": 9092,
             "label": "daprd-debug-quest-api",
             "type": "daprd",
             "dependsOn": "build-questapi",
@@ -136,6 +145,9 @@
         {
             "appId": "characters",
             "appPort": 5003,
+            "grpcPort": 50013,
+            "httpPort": 3503,
+            "metricsPort": 9093,
             "label": "daprd-debug-characters",
             "type": "daprd",
             "dependsOn": "build-characters",
@@ -149,6 +161,9 @@
         {
             "appId": "locations",
             "appPort": 5004,
+            "grpcPort": 50014,
+            "httpPort": 3504,
+            "metricsPort": 9094,
             "label": "daprd-debug-locations",
             "type": "daprd",
             "dependsOn": "build-locations",
@@ -162,6 +177,9 @@
         {
             "appId": "quests",
             "appPort": 5005,
+            "grpcPort": 50015,
+            "httpPort": 3505,
+            "metricsPort": 9095,
             "label": "daprd-debug-quests",
             "type": "daprd",
             "dependsOn": "build-quests",
