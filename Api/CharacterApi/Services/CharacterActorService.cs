@@ -16,7 +16,7 @@ namespace CharacterApi.Services
 	{
 		private readonly DaprClient _daprClient;
 		private readonly ICharacterStoreFactory _characterStoreFactory;
-		
+		private const string CHARACTER_FALLBACK_TYPE = "ORDINAL";
 
 		public CharacterActorSerivce(DaprClient daprClient, ICharacterStoreFactory characterStoreFactory)
 		{
@@ -27,7 +27,7 @@ namespace CharacterApi.Services
 		public async Task<CharacterViewModel> CreateChar(string name, string bio)
 		{
 			var newCharId = System.Guid.NewGuid().ToString("B");
-			string archiType = "ORDINAL";
+			string archiType = CHARACTER_FALLBACK_TYPE;
 			var characterModel = new Character
 			{
 				Name = name,
@@ -88,7 +88,7 @@ namespace CharacterApi.Services
 			var proxy = await Helper.GetCharacterActorAsync(characterId, _characterStoreFactory);
 			var knownChars = await proxy.GetKnownCharacters();
 			var result = new List<CharacterViewModel>();
-			await foreach (var character in Helper.ConverViewAsync(knownChars, _daprClient))
+			await foreach (var character in Helper.ConverViewAsync(knownChars, _characterStoreFactory))
 			{
 				result.Add(character);
 			}
@@ -119,7 +119,7 @@ namespace CharacterApi.Services
 			switch (action?.ToLowerInvariant())
 			{
 				case "move": await proxy.MoveTo(new Location { Id = targetId }); break;
-				case "atatck": await proxy.Attack(targetId);break;
+				case "atatck": await proxy.Attack(targetId); break;
 				case "say":
 					await proxy.Speak(new Message
 					{
@@ -145,33 +145,21 @@ namespace CharacterApi.Services
 			string actorType = characterType
 				?? (await storeFactory.CreateCharacterStore(characterId).GetCharacterAsync()).ActorType
 				?? ActorFallbackType;
-			
+
 			return ActorProxy.Create<ICharacterActor>(actorId, actorType);
 		}
-		public static async IAsyncEnumerable<CharacterViewModel> ConverViewAsync(IEnumerable<string> characterIds, DaprClient daprClient)
+		public static async IAsyncEnumerable<CharacterViewModel> ConverViewAsync(IEnumerable<string> characterIds, ICharacterStoreFactory storeFactory)
 		{
-			if (daprClient == null) throw new System.ArgumentNullException(nameof(daprClient));
-
-			var serializedItems = await daprClient?.GetBulkStateAsync("store", characterIds.ToList(), null);
-
-			foreach (var character in characterIds)
+			foreach (var characterId in characterIds)
 			{
-				// var actorId = new ActorId(character.Id);
-				// var proxy = ActorProxy.Create<ICharacterActor>(actorId, "SOMEACTORTYPE, IT SHOULD BE SOMETHING LIKE PLAYER");
-				// var knownChars = await proxy.();
-				// TODO Get some data from storage ?
-				yield return new CharacterViewModel();
+				var store = storeFactory.CreateCharacterStore(characterId);
+				var characterData = await store.GetCharacterAsync();
+				yield return ConvertCharacter(characterData);
 			}
 		}
 		public static CharacterViewModel ConvertCharacter(Character character)
 		{
-			string mappedArhitype = string.Empty;
-			switch (character.ActorType)
-			{
-				default:
-					mappedArhitype = "Ordinal";
-					break;
-			}
+			string mappedArhitype = character.ActorType;
 
 			return new CharacterViewModel
 			{
