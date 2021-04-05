@@ -10,15 +10,16 @@ using Dapr.Actors;
 
 namespace Common.ActorInterfaces
 {
-	public interface ICharacterActor: IActor
+	public interface ICharacterActor : IActor
 	{
-        Task MoveTo(Location location);
-        Task Attack(string characterId);
-        Task Speak(Message message);
-        Task Observe();
-        Task DoQuest(Quest quest);
-        Task<IEnumerable<Quest>> GetKnownQuests();
-        Task<IEnumerable<Location>> GetKnownLocations();
-        Task<IEnumerable<KnownCharacter>> GetKnownCharacters();
+		Task MoveTo(Location location);
+		Task Attack(string characterId);
+		Task Speak(Message message);
+		Task Observe();
+		Task DoQuest(Quest quest);
+		Task<IEnumerable<Quest>> GetKnownQuests();
+		Task<IEnumerable<Location>> GetKnownLocations();
+		Task<IEnumerable<KnownCharacter>> GetKnownCharacters();
+        Task<string> GetHit(string byCharacterId);
 	}
 }

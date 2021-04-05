@@ -42,7 +42,7 @@ namespace Actors.Characters
 			services
 				.AddActors(config =>
 				{
-					config.Actors.RegisterActor<Actors.Characters.OrdinalActor>();
+					config.Actors.RegisterActor<Actors.Characters.OrdinalCharacterActor>();
 
 				});
 		}
