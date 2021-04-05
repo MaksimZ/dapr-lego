@@ -17,7 +17,12 @@
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5000"
             },
-            "postDebugTask": "daprd-down-characters-api"
+            "postDebugTask": "daprd-down-characters-api",
+            "presentation": {
+                "hidden": false,
+                "group": "API",
+                "order": 1
+            }
         },
         {
             "type": "coreclr",
@@ -32,7 +37,12 @@
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5001"
             },
-            "postDebugTask": "daprd-down-location-api"
+            "postDebugTask": "daprd-down-location-api",
+            "presentation": {
+                "hidden": false,
+                "group": "API",
+                "order": 2
+            }
         },
         {
             "type": "coreclr",
@@ -47,7 +57,12 @@
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5002"
             },
-            "postDebugTask": "daprd-down-quest-api"
+            "postDebugTask": "daprd-down-quest-api",
+            "presentation": {
+                "hidden": false,
+                "group": "API",
+                "order": 3
+            }
         },
         {
             "type": "coreclr",
@@ -62,7 +77,12 @@
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5003"
             },
-            "postDebugTask": "daprd-down-characters"
+            "postDebugTask": "daprd-down-characters",
+            "presentation": {
+                "hidden": false,
+                "group": "Actors",
+                "order": 1
+            }
         },
         {
             "type": "coreclr",
@@ -77,7 +97,12 @@
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5004"
             },
-            "postDebugTask": "daprd-down-locations"
+            "postDebugTask": "daprd-down-locations",
+            "presentation": {
+                "hidden": false,
+                "group": "Actors",
+                "order": 2
+            }
         },
         {
             "type": "coreclr",
@@ -92,7 +117,12 @@
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5005"
             },
-            "postDebugTask": "daprd-down-quests"
+            "postDebugTask": "daprd-down-quests",
+            "presentation": {
+                "hidden": false,
+                "group": "Actors",
+                "order": 3
+            }
         }
     ],
     "compounds": [
@@ -106,7 +136,23 @@
                 "Launch w/Dapr (QuestApi)",
                 "Launch w/Dapr (Quests)"
             ],
-            "preLaunchTask": "build"
+            "presentation": {
+                "hidden": false,
+                "group": "Scenarious",
+                "order": 1
+            }
+        },
+        {
+            "name": "Character",
+            "configurations": [
+                "Launch w/Dapr (CharacterApi)",
+                "Launch w/Dapr (Characters)"
+            ],
+            "presentation": {
+                "hidden": false,
+                "group": "Scenarious",
+                "order": 2
+            }
         }
     ]
 }
