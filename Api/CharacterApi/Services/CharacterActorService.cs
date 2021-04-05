@@ -78,7 +78,13 @@ namespace CharacterApi.Services
 					Status = "None",
 					Description= "Character observe current location",
 					Target = string.Empty
-				}
+				},
+				new ActionViewModel {
+					Name = "Idle",
+					Status = "None",
+					Description= "Character just wait",
+					Target = string.Empty
+				},
 			}.AsEnumerable());
 		}
 
