@@ -7,6 +7,7 @@ namespace CharacterApi.Models
 		public string Id { get; set; }
 		public string Name { get; set; }
 		public string Bio { get; set; }
+		public string ArchiType { get; set; }
 		public Uri Picture { get; set; }
 	}
 }

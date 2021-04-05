@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Entities\Entities.csproj" />
     <ProjectReference Include="..\..\Common\ActorInterfaces\ActorInterfaces.csproj" />
+    <ProjectReference Include="..\..\Common\Services\Services.csproj" />
   </ItemGroup>
 
 </Project>

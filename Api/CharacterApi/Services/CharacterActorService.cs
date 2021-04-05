@@ -8,34 +8,43 @@ using Dapr.Client;
 using Dapr.Actors;
 using Dapr.Actors.Client;
 using Common.ActorInterfaces;
-
+using Common.Services.Interfaces;
 
 namespace CharacterApi.Services
 {
 	public class CharacterActorSerivce : ICharacterService
 	{
 		private readonly DaprClient _daprClient;
-		private const string CHARACTER_STORAGE = "characters-store";
+		private readonly ICharacterStoreFactory _characterStoreFactory;
+		
 
-		public CharacterActorSerivce(DaprClient daprClient)
+		public CharacterActorSerivce(DaprClient daprClient, ICharacterStoreFactory characterStoreFactory)
 		{
 			_daprClient = daprClient;
+			_characterStoreFactory = characterStoreFactory;
 		}
 
 		public async Task<CharacterViewModel> CreateChar(string name, string bio)
 		{
 			var newCharId = System.Guid.NewGuid().ToString("B");
-			object characterModel = null;
-			var stateEntry = await _daprClient.GetStateEntryAsync<object>(CHARACTER_STORAGE, $"charinfo-{newCharId}");
-			stateEntry.Value = characterModel;
-			await stateEntry.TrySaveAsync();
-			//init char info
-			return new CharacterViewModel
+			string archiType = "ORDINAL";
+			var characterModel = new Character
 			{
+				Name = name,
 				Bio = bio,
 				Id = newCharId,
-				Name = name
+				ActorType = archiType //TODO: character type here
 			};
+			var store = _characterStoreFactory.CreateCharacterStore(newCharId);
+			await store.StoreCharacterAsync(characterModel);
+			var proxy = await Helper.GetCharacterActorAsync(newCharId, _characterStoreFactory, archiType);
+			await proxy.Speak(new Message
+			{
+				RecepientId = newCharId,
+				MessageText = $"The Hero {characterModel.Name} awaken. The Hero Bio was not easy: {characterModel.Bio}. And {characterModel.Name} came {archiType}"
+			});
+			//init char info
+			return Helper.ConvertCharacter(characterModel);
 		}
 
 		public Task<IEnumerable<ActionViewModel>> GetActions(string characterId)
@@ -76,26 +85,27 @@ namespace CharacterApi.Services
 
 		public async Task<IEnumerable<CharacterViewModel>> GetCharacters(string characterId)
 		{
-			var proxy = Helper.GetCharacterActor(characterId);
+			var proxy = await Helper.GetCharacterActorAsync(characterId, _characterStoreFactory);
 			var knownChars = await proxy.GetKnownCharacters();
 			var result = new List<CharacterViewModel>();
-			await foreach (var character in Helper.ConverViewAsync(knownChars))
+			await foreach (var character in Helper.ConverViewAsync(knownChars, _daprClient))
 			{
 				result.Add(character);
 			}
+
 			return result;
 		}
 
-		public Task<IEnumerable<Location>> GetLocations(string characterId)
+		public async Task<IEnumerable<Location>> GetLocations(string characterId)
 		{
-			var proxy = Helper.GetCharacterActor(characterId);
-			return proxy.GetKnownLocations();
+			var proxy = await Helper.GetCharacterActorAsync(characterId, _characterStoreFactory);
+			return await proxy.GetKnownLocations();
 		}
 
-		public Task<IEnumerable<Quest>> GetQuests(string characterId)
+		public async Task<IEnumerable<Quest>> GetQuests(string characterId)
 		{
-			var proxy = Helper.GetCharacterActor(characterId);
-			return proxy.GetKnownQuests();
+			var proxy = await Helper.GetCharacterActorAsync(characterId, _characterStoreFactory);
+			return await proxy.GetKnownQuests();
 		}
 
 		public Task<CharacterViewModel> GetSelf(string characterId)
@@ -103,21 +113,21 @@ namespace CharacterApi.Services
 			throw new System.NotImplementedException();
 		}
 
-		public Task PerformAction(string characterId, string action, string targetId)
+		public async Task PerformAction(string characterId, string action, string targetId)
 		{
-			var proxy = Helper.GetCharacterActor(characterId);
+			var proxy = await Helper.GetCharacterActorAsync(characterId, _characterStoreFactory);
 			switch (action?.ToLowerInvariant())
 			{
-				case "move": return proxy.MoveTo(new Location { Id = targetId });
-				case "atatck": return proxy.Attack(new Character { Id = targetId });
+				case "move": await proxy.MoveTo(new Location { Id = targetId }); break;
+				case "atatck": await proxy.Attack(targetId);break;
 				case "say":
-					return proxy.Speak(new Message
+					await proxy.Speak(new Message
 					{
-						Recepient = new Character { Id = targetId },
+						RecepientId = targetId,
 						MessageText = "Foo text message"
-					});
-				case "do quest": return proxy.DoQuest(new Quest { Id = targetId });
-				case "observe": return proxy.Observe();
+					}); break;
+				case "do quest": await proxy.DoQuest(new Quest { Id = targetId }); break;
+				case "observe": await proxy.Observe(); break;
 				default:
 					throw new System.NotSupportedException();
 			}
@@ -126,18 +136,25 @@ namespace CharacterApi.Services
 	}
 	static class Helper
 	{
-		public static ICharacterActor GetCharacterActor(string characterId)
+		static readonly string ActorFallbackType = "ORDINAL";
+		public static async Task<ICharacterActor> GetCharacterActorAsync(string characterId, ICharacterStoreFactory storeFactory, string characterType = null)
 		{
 			var actorId = new ActorId(characterId);
 			// TODO: somehow identify character type, please
 			//  if no actor type known - we should create new Player
-
-			string characterType = string.Empty;
-			return ActorProxy.Create<ICharacterActor>(actorId, characterType);
+			string actorType = characterType
+				?? (await storeFactory.CreateCharacterStore(characterId).GetCharacterAsync()).ActorType
+				?? ActorFallbackType;
+			
+			return ActorProxy.Create<ICharacterActor>(actorId, actorType);
 		}
-		public static async IAsyncEnumerable<CharacterViewModel> ConverViewAsync(IEnumerable<Character> characters)
+		public static async IAsyncEnumerable<CharacterViewModel> ConverViewAsync(IEnumerable<string> characterIds, DaprClient daprClient)
 		{
-			foreach (var character in characters)
+			if (daprClient == null) throw new System.ArgumentNullException(nameof(daprClient));
+
+			var serializedItems = await daprClient?.GetBulkStateAsync("store", characterIds.ToList(), null);
+
+			foreach (var character in characterIds)
 			{
 				// var actorId = new ActorId(character.Id);
 				// var proxy = ActorProxy.Create<ICharacterActor>(actorId, "SOMEACTORTYPE, IT SHOULD BE SOMETHING LIKE PLAYER");
@@ -145,6 +162,24 @@ namespace CharacterApi.Services
 				// TODO Get some data from storage ?
 				yield return new CharacterViewModel();
 			}
+		}
+		public static CharacterViewModel ConvertCharacter(Character character)
+		{
+			string mappedArhitype = string.Empty;
+			switch (character.ActorType)
+			{
+				default:
+					mappedArhitype = "Ordinal";
+					break;
+			}
+
+			return new CharacterViewModel
+			{
+				Bio = character.Bio,
+				Id = character.Id,
+				Name = character.Name,
+				ArchiType = mappedArhitype
+			};
 		}
 	}
 }

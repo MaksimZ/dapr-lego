@@ -32,7 +32,7 @@ namespace CharacterApi
 				.AddDapr();
 
 			services
-				.AddScoped<Services.ICharacterService>(null);
+				.AddScoped<Services.ICharacterService, Services.CharacterActorSerivce>();
 
 
 			services.AddSwaggerGen(c =>
