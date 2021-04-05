@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Character = Common.Entities.Character;
+using KnownCharacter = System.String;
 using Location = Common.Entities.Location;
 using Message = Common.ActorInterfaces.Models.Message;
 using Quest = Common.Entities.Quest;
@@ -13,12 +13,12 @@ namespace Common.ActorInterfaces
 	public interface ICharacterActor: IActor
 	{
         Task MoveTo(Location location);
-        Task Attack(Character character);
+        Task Attack(string characterId);
         Task Speak(Message message);
         Task Observe();
         Task DoQuest(Quest quest);
         Task<IEnumerable<Quest>> GetKnownQuests();
         Task<IEnumerable<Location>> GetKnownLocations();
-        Task<IEnumerable<Character>> GetKnownCharacters();
+        Task<IEnumerable<KnownCharacter>> GetKnownCharacters();
 	}
 }
