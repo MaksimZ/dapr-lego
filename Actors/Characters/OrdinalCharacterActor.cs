@@ -16,6 +16,7 @@ namespace Actors.Characters
 		private const string KNOWN_CHARACTERS_STATE = "known-characters";
 		private const string KNOWN_QUESTS_STATE = "known-quests";
 		private const string CURRENT_CHAR_STATE = "current-character";
+		private const string BASIC_LOCATION_ACTOR = "Basic Location Actor";
 		private readonly DaprClient _daprClient;
 		private readonly ICharacterStoreFactory _characterStoreFactory;
 		public OrdinalCharacterActor(
@@ -91,12 +92,12 @@ namespace Actors.Characters
 			{
 				//We're leaving location
 				var currentLocationActorId = new Dapr.Actors.ActorId(this.Id.GetId());
-				var currentLocationActor = this.ProxyFactory.CreateActorProxy<Common.ActorInterfaces.ILocationActor>(currentLocationActorId, "Location Actor");
+				var currentLocationActor = this.ProxyFactory.CreateActorProxy<Common.ActorInterfaces.ILocationActor>(currentLocationActorId, BASIC_LOCATION_ACTOR);
 				await currentLocationActor.CharacterLeaveLocation(this.Id.GetId());
 
 				// And entering the new one
 				var targetLocationActorId = new Dapr.Actors.ActorId(location.Id);
-				var targetLocationActor = this.ProxyFactory.CreateActorProxy<Common.ActorInterfaces.ILocationActor>(targetLocationActorId, "Location Actor");
+				var targetLocationActor = this.ProxyFactory.CreateActorProxy<Common.ActorInterfaces.ILocationActor>(targetLocationActorId, BASIC_LOCATION_ACTOR);
 				await targetLocationActor.CharacterEnterLocation(this.Id.GetId());
 
 				var myState = await GetState();
@@ -115,7 +116,7 @@ namespace Actors.Characters
 		{
 			var myState = await GetState();
 			var actorId = new Dapr.Actors.ActorId(myState.LocationId);
-			var currentLocationActor = this.ProxyFactory.CreateActorProxy<Common.ActorInterfaces.ILocationActor>(actorId, "Location Actor");
+			var currentLocationActor = this.ProxyFactory.CreateActorProxy<Common.ActorInterfaces.ILocationActor>(actorId, BASIC_LOCATION_ACTOR);
 			var connectedLocations = await currentLocationActor.ObserveConnectedLocations();
 			var knownLocations = await GetKnownLocationIdsState();
 			var newLocations = knownLocations
