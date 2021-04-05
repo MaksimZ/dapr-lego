@@ -22,25 +22,33 @@ namespace Common.Services
 		}
 		public async Task<Character> GetCharacterAsync()
 		{
-			var (character, etag) = await _daprClient.GetStateAndETagAsync<Character>(_storeName, _storeItemId);
-			_etag = etag;
-			return character;
+			var item = await _daprClient.GetStateEntryAsync<Character>(_storeName, _storeItemId);
+
+			_etag = item.ETag;
+			return item.Value ?? new Character
+			{
+				Id = "fakeid",
+				ActorType = "faketype",
+				Bio = "fakebio",
+				Name = "fakename"
+			};
 		}
 
 		public async Task StoreCharacterAsync(Character character)
 		{
 			const int MAX_TRIES = 3;
-            int tries = 0;
+			int tries = 0;
 			while (tries < MAX_TRIES && !await _daprClient.TrySaveStateAsync(_storeName, _storeItemId, character, _etag))
 			{
 				_etag = (await _daprClient.GetStateAndETagAsync<Character>(_storeName, _storeItemId)).etag;
-                ++tries;
+				++tries;
 			}
-            if (tries >= MAX_TRIES) {
-                //store error
-                //Log and throw
-                
-            }
+			if (tries >= MAX_TRIES)
+			{
+				//store error
+				//Log and throw
+
+			}
 		}
 
 	}

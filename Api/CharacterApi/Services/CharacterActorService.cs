@@ -16,7 +16,6 @@ namespace CharacterApi.Services
 	{
 		private readonly DaprClient _daprClient;
 		private readonly ICharacterStoreFactory _characterStoreFactory;
-		private const string CHARACTER_FALLBACK_TYPE = "ORDINAL";
 
 		public CharacterActorSerivce(DaprClient daprClient, ICharacterStoreFactory characterStoreFactory)
 		{
@@ -26,8 +25,8 @@ namespace CharacterApi.Services
 
 		public async Task<CharacterViewModel> CreateChar(string name, string bio)
 		{
-			var newCharId = System.Guid.NewGuid().ToString("B");
-			string archiType = CHARACTER_FALLBACK_TYPE;
+			var newCharId = System.Guid.NewGuid().ToString("D");
+			string archiType = Helper.ActorFallbackType;
 			var characterModel = new Character
 			{
 				Name = name,
@@ -108,9 +107,10 @@ namespace CharacterApi.Services
 			return await proxy.GetKnownQuests();
 		}
 
-		public Task<CharacterViewModel> GetSelf(string characterId)
+		public async Task<CharacterViewModel> GetSelf(string characterId)
 		{
-			throw new System.NotImplementedException();
+			var charData = await _characterStoreFactory.CreateCharacterStore(characterId).GetCharacterAsync();
+			return Helper.ConvertCharacter(charData);
 		}
 
 		public async Task PerformAction(string characterId, string action, string targetId)
@@ -136,7 +136,7 @@ namespace CharacterApi.Services
 	}
 	static class Helper
 	{
-		static readonly string ActorFallbackType = "ORDINAL";
+		public static readonly string ActorFallbackType = "Ordinal Character";
 		public static async Task<ICharacterActor> GetCharacterActorAsync(string characterId, ICharacterStoreFactory storeFactory, string characterType = null)
 		{
 			var actorId = new ActorId(characterId);
@@ -166,7 +166,7 @@ namespace CharacterApi.Services
 				Bio = character.Bio,
 				Id = character.Id,
 				Name = character.Name,
-				ArchiType = mappedArhitype
+				ArchiType = mappedArhitype,
 			};
 		}
 	}
