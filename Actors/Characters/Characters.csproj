@@ -5,7 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapr.AspNetCore" Version="1.0.*" />
+    <PackageReference Include="Dapr.Actors.AspNetCore" Version="1.0.*" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Entities\Entities.csproj" />
+    <ProjectReference Include="..\..\Common\ActorInterfaces\ActorInterfaces.csproj" />
+    <ProjectReference Include="..\..\Common\Services\Services.csproj" />
   </ItemGroup>
 
 </Project>
