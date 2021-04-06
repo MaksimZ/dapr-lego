@@ -20,12 +20,12 @@ namespace Actors.AllActors
 		}
 		public Task CharacterEnterLocation(string characterId)
 		{
-			return SendLocationEvent($"Leaving locaiton {this.Id.GetId()}", characterId);
+			return SendLocationEvent($"Entering locaiton {this.Id.GetId()}", characterId);
 		}
 
 		public Task CharacterLeaveLocation(string characterId)
 		{
-			return SendLocationEvent($"Entering location {this.Id.GetId()}", characterId);
+			return SendLocationEvent($"Leaving location {this.Id.GetId()}", characterId);
 		}
 
 		public Task<IEnumerable<string>> ObserveConnectedLocations()

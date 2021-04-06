@@ -1,4 +1,4 @@
-@charid=211ca5d5-913e-48b2-acb5-79872be6af3c
+@charid=40c1c321-2908-4220-88f1-9a970e0517e4
 @target_charid=de9b3052-ff3f-427d-ba61-84ece657e272
 @location1=City:Foo|Street:West
 @location2=CIty:Foo|Street:Bar
@@ -75,7 +75,7 @@ Content-Type: application/json
 
 {
     "id":"",
-    "name":"I'm target",
+    "name":"Mr.Hero",
     "bio": "I was born many years ago",
     "archiType":"Mage",
     "picture":"http://my-picture.com/image123.png"

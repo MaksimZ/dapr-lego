@@ -118,6 +118,7 @@ namespace Actors.AllActors
 				myState.LocationId = location.Id;
 				await this.StateManager.SetStateAsync(CURRENT_CHAR_STATE, myState);
 
+
 				await SendSelfMessage("I just moved somewhere");
 			}
 			else
@@ -167,12 +168,23 @@ namespace Actors.AllActors
 
 		private async Task<OrdinalCharacterState> GetState()
 		{
-			return await this.StateManager.GetOrAddStateAsync(CURRENT_CHAR_STATE, new OrdinalCharacterState
+			var currentState = await this.StateManager.TryGetStateAsync<OrdinalCharacterState>(CURRENT_CHAR_STATE);
+			if (currentState.HasValue)
 			{
-				CurrentAction = "Idle",
-				CurrentQuestId = string.Empty,
-				LocationId = "CIty:Foo|Street:Bar"// need to be some initial location
-			});
+				return currentState.Value;
+			}
+			else
+			{
+				var initialState = new OrdinalCharacterState
+				{
+					CurrentAction = "Idle",
+					CurrentQuestId = string.Empty,
+					LocationId = "unknown"// need to be some initial location
+				};
+				await this.StateManager.AddStateAsync(CURRENT_CHAR_STATE, initialState);
+				await SetCurrentLocation();
+				return initialState;
+			}
 		}
 		private async Task<IEnumerable<string>> GetKnownCharacterIdsState()
 		{
@@ -206,6 +218,13 @@ namespace Actors.AllActors
 				MessageText = message,
 				RecepientId = characterId
 			});
+		}
+		private async Task SetCurrentLocation()
+		{
+			var characterStore = _characterStoreFactory.CreateCharacterStore(Id.GetId());
+			var storeCharacter = await characterStore.GetCharacterAsync();
+			storeCharacter.LocationId = (await this.StateManager.GetStateAsync<OrdinalCharacterState>(CURRENT_CHAR_STATE)).LocationId;
+			await characterStore.StoreCharacterAsync(storeCharacter);
 		}
 	}
 }

@@ -42,6 +42,7 @@ namespace CharacterApi.Services
 				RecepientId = newCharId,
 				MessageText = $"The Hero {characterModel.Name} awaken. The Hero Bio was not easy: {characterModel.Bio}. And {characterModel.Name} came {archiType}"
 			});
+			await proxy.MoveTo(new Location { Id = "CIty:Foo|Street:Bar" });
 			//init char info
 			return Helper.ConvertCharacter(characterModel);
 		}
@@ -176,7 +177,8 @@ namespace CharacterApi.Services
 				Bio = character.Bio,
 				Id = character.Id,
 				Name = character.Name,
-				ArchiType = mappedArhitype
+				ArchiType = mappedArhitype,
+				LocationId = character.LocationId
 			};
 		}
 	}
