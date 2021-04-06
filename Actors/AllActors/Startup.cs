@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-namespace Actors.Characters
+namespace Actors.AllActors
 {
 	public class Startup
 	{
@@ -42,8 +42,9 @@ namespace Actors.Characters
 			services
 				.AddActors(config =>
 				{
-					config.Actors.RegisterActor<Actors.Characters.OrdinalCharacterActor>();
-
+					config.Actors.RegisterActor<Actors.AllActors.OrdinalCharacterActor>();
+					config.Actors.RegisterActor<Actors.AllActors.BasicLocationActor>();
+					config.Actors.RegisterActor<Actors.AllActors.BasicQuestActor>();
 				});
 		}
 

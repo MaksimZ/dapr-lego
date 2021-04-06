@@ -17,8 +17,6 @@
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5000",
                 "DAPR_HTTP_PORT": "3500",
-                "DAPR_GRPC_PORT": "50010",
-                "DAPR_HTTP_PORT": "3500",
                 "DAPR_GRPC_PORT": "50010"
             },
             "postDebugTask": "daprd-down-characters-api",
@@ -75,63 +73,19 @@
         {
             "type": "coreclr",
             "request": "launch",
-            "name": "Launch w/Dapr (Characters)",
-            "preLaunchTask": "daprd-debug-characters",
-            "program": "${workspaceFolder}/Actors/Characters/bin/Debug/net5.0/Characters.dll",
+            "name": "Launch w/Dapr (Actors)",
+            "preLaunchTask": "daprd-debug-actors",
+            "program": "${workspaceFolder}/Actors/AllActors/bin/Debug/net5.0/AllActors.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Actors/Characters",
+            "cwd": "${workspaceFolder}/Actors/AllActors",
             "stopAtEntry": false,
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5003",
-                "DAPR_HTTP_PORT": "3503",
-                "DAPR_GRPC_PORT": "50013"
+                "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5009",
+                "DAPR_HTTP_PORT": "3509",
+                "DAPR_GRPC_PORT": "50019"
             },
-            "postDebugTask": "daprd-down-characters",
-            "presentation": {
-                "hidden": false,
-                "group": "Actors",
-                "order": 1
-            }
-        },
-        {
-            "type": "coreclr",
-            "request": "launch",
-            "name": "Launch w/Dapr (Locations)",
-            "preLaunchTask": "daprd-debug-locations",
-            "program": "${workspaceFolder}/Actors/Locations/bin/Debug/net5.0/Locations.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/Actors/Locations",
-            "stopAtEntry": false,
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5004",
-                "DAPR_HTTP_PORT": "3504",
-                "DAPR_GRPC_PORT": "50014"
-            },
-            "postDebugTask": "daprd-down-locations",
-            "presentation": {
-                "hidden": false,
-                "group": "Actors",
-                "order": 2
-            }
-        },
-        {
-            "type": "coreclr",
-            "request": "launch",
-            "name": "Launch w/Dapr (Quests)",
-            "preLaunchTask": "daprd-debug-quests",
-            "program": "${workspaceFolder}/Actors/Quests/bin/Debug/net5.0/Quests.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/Actors/Quests",
-            "stopAtEntry": false,
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5005",
-                "DAPR_HTTP_PORT": "3505",
-                "DAPR_GRPC_PORT": "50015"
-            },
-            "postDebugTask": "daprd-down-quests",
+            "postDebugTask": "daprd-down-actors",
             "presentation": {
                 "hidden": false,
                 "group": "Actors",
@@ -144,11 +98,9 @@
             "name": "Whole system",
             "configurations": [
                 "Launch w/Dapr (CharacterApi)",
-                "Launch w/Dapr (Characters)",
                 "Launch w/Dapr (LocationApi)",
-                "Launch w/Dapr (Locations)",
                 "Launch w/Dapr (QuestApi)",
-                "Launch w/Dapr (Quests)"
+                "Launch w/Dapr (Actors)"
             ],
             "presentation": {
                 "hidden": false,
@@ -157,42 +109,15 @@
             }
         },
         {
-            "name": "Character",
+            "name": "Character API",
             "configurations": [
                 "Launch w/Dapr (CharacterApi)",
-                "Launch w/Dapr (Characters)"
+                "Launch w/Dapr (Actors)"
             ],
             "presentation": {
                 "hidden": false,
                 "group": "Scenario",
                 "order": 2
-            }
-        },
-        {
-            "name": "Character and Location",
-            "configurations": [
-                "Launch w/Dapr (CharacterApi)",
-                "Launch w/Dapr (Characters)",
-                "Launch w/Dapr (Locations)"
-            ],
-            "presentation": {
-                "hidden": false,
-                "group": "Scenario",
-                "order": 3
-            }
-        },
-        {
-            "name": "Char Api, Chars, Locs and Quests",
-            "configurations": [
-                "Launch w/Dapr (CharacterApi)",
-                "Launch w/Dapr (Characters)",
-                "Launch w/Dapr (Locations)",
-                "Launch w/Dapr (Quests)"
-            ],
-            "presentation": {
-                "hidden": false,
-                "group": "Scenario",
-                "order": 4
             }
         }
     ]

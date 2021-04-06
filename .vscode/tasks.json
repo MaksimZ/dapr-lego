@@ -56,38 +56,12 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "build-characters",
+            "label": "build-actors",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Actors/Characters/Characters.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "group": "build",
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "build-locations",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/Actors/Locations/Locations.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "group": "build",
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "build-quests",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/Actors/Quests/Quests.csproj",
+                "${workspaceFolder}/Actors/AllActors/AllActors.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -153,54 +127,20 @@
             "type": "daprd-down"
         },
         {
-            "appId": "characters",
-            "appPort": 5003,
+            "appId": "actors",
+            "appPort": 5009,
             "appProtocol": "http",
-            "grpcPort": 50013,
-            "httpPort": 3503,
-            "metricsPort": 9093,
-            "label": "daprd-debug-characters",
+            "grpcPort": 50019,
+            "httpPort": 3509,
+            "metricsPort": 9099,
+            "label": "daprd-debug-actors",
             "type": "daprd",
-            "dependsOn": "build-characters",
+            "dependsOn": "build-actors",
             "componentsPath": "components"
         },
         {
-            "appId": "characters",
-            "label": "daprd-down-characters",
-            "type": "daprd-down"
-        },
-        {
-            "appId": "locations",
-            "appPort": 5004,
-            "appProtocol": "http",
-            "grpcPort": 50014,
-            "httpPort": 3504,
-            "metricsPort": 9094,
-            "label": "daprd-debug-locations",
-            "type": "daprd",
-            "dependsOn": "build-locations",
-            "componentsPath": "components"
-        },
-        {
-            "appId": "locations",
-            "label": "daprd-down-locations",
-            "type": "daprd-down"
-        },
-        {
-            "appId": "quests",
-            "appPort": 5005,
-            "appProtocol": "http",
-            "grpcPort": 50015,
-            "httpPort": 3505,
-            "metricsPort": 9095,
-            "label": "daprd-debug-quests",
-            "type": "daprd",
-            "dependsOn": "build-quests",
-            "componentsPath": "components"
-        },
-        {
-            "appId": "quests",
-            "label": "daprd-down-quests",
+            "appId": "actors",
+            "label": "daprd-down-actors",
             "type": "daprd-down"
         }
     ]

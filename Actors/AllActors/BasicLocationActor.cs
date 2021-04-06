@@ -6,7 +6,7 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using Common.ActorInterfaces.Models;
 
-namespace Actors.Locations
+namespace Actors.AllActors
 {
 
 	[Actor(TypeName = "Basic Location Actor")]

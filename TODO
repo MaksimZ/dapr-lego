@@ -7,6 +7,7 @@
 [X]  Quest Actor
 [_]  Location eventing Models
 [_]  Char current location
+[_]  Get quests from location
 [_]  Locations API
 [_]  Quests API
 [_]  Test Data init

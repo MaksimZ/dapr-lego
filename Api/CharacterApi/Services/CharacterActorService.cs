@@ -139,7 +139,7 @@ namespace CharacterApi.Services
 				case "do quest": await proxy.DoQuest(new Quest { Id = targetId }); break;
 				case "observe": await proxy.Observe(); break;
 				default:
-					throw new System.NotSupportedException();
+					throw new System.NotSupportedException($"action {action} to target {targetId} is not supported by {characterId}");
 			}
 		}
 
@@ -150,7 +150,7 @@ namespace CharacterApi.Services
 		public static async Task<ICharacterActor> GetCharacterActorAsync(string characterId, ICharacterStoreFactory storeFactory, string characterType = null)
 		{
 			var actorId = new ActorId(characterId);
-			// TODO: somehow identify character type, please
+
 			//  if no actor type known - we should create new Player
 			string actorType = characterType
 				?? (await storeFactory.CreateCharacterStore(characterId).GetCharacterAsync())?.ActorType

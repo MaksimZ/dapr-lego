@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 
-namespace Actors.Characters
+namespace Actors.AllActors
 {
 	[Actor(TypeName = "Ordinal Character")]
 	class OrdinalCharacterActor : Actor, Common.ActorInterfaces.ICharacterActor

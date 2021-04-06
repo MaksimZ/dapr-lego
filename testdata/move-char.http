@@ -29,7 +29,7 @@ Content-Type: application/json
 
 {
     "name": "move",
-    "target": "City:Foo|Street:West"
+    "target": "{{location1}}"
 }
 //City:Foo|Street:West
 //"CIty:Foo|Street:Bar"
@@ -85,3 +85,9 @@ Content-Type: application/json
 
 // Get char
 GET http://localhost:5000/character/{{charid}}
+
+
+###
+
+//Get allactors config
+GET http://localhost:3509/v1.0/metadata

@@ -1,4 +1,4 @@
-namespace Actors.Characters
+namespace Actors.AllActors
 {
 	class OrdinalCharacterState
 	{

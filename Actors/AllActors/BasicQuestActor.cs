@@ -1,7 +1,7 @@
 using Dapr.Actors.Runtime;
 using System.Threading.Tasks;
 
-namespace Actors.Quests
+namespace Actors.AllActors
 {
 	[Actor(TypeName = "Basic Quest Actor")]
 	class BasicQuestActor : Actor, Common.ActorInterfaces.IQuestActor
