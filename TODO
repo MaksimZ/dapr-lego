@@ -4,9 +4,11 @@
 [X]  Design system
 [X]  Create build/debug config
 [X]  Design Actors Interfaces
-[_]  Quest Actor
+[X]  Quest Actor
 [_]  Location eventing Models
 [_]  Char current location
+[_]  Locations API
+[_]  Quests API
 [_]  Test Data init
 [_]  Improve services
 [_]  Design Resources in details

@@ -1,6 +1,19 @@
+@charid=211ca5d5-913e-48b2-acb5-79872be6af3c
+@target_charid=de9b3052-ff3f-427d-ba61-84ece657e272
+@location1=City:Foo|Street:West
+@location2=CIty:Foo|Street:Bar
+###
+
+// Get actions
+
+GET http://localhost:5000/character/{{charid}}/actions
+Content-Type: application/json
+
+###
+
 // Move Char
 
-POST http://localhost:5000/character/2f8b49ff-77ba-4821-9d92-5121d6ef3ee7/actions/move
+POST http://localhost:5000/character/{{charid}}/actions/move
 Content-Type: application/json
 
 {
@@ -11,7 +24,7 @@ Content-Type: application/json
 ###
 
 // Move knonw location
-POST http://localhost:5000/character/2f8b49ff-77ba-4821-9d92-5121d6ef3ee7/actions/move
+POST http://localhost:5000/character/{{charid}}/actions/move
 Content-Type: application/json
 
 {
@@ -23,7 +36,7 @@ Content-Type: application/json
 ###
 
 // Observe location
-POST http://localhost:5000/character/2f8b49ff-77ba-4821-9d92-5121d6ef3ee7/actions/observe
+POST http://localhost:5000/character/{{charid}}/actions/observe
 Content-Type: application/json
 
 {
@@ -35,12 +48,23 @@ Content-Type: application/json
 
 ###
 // Attack char
-POST http://localhost:5000/character/2f8b49ff-77ba-4821-9d92-5121d6ef3ee7/actions/attack
+POST http://localhost:5000/character/{{charid}}/actions/attack
 Content-Type: application/json
 
 {
     "name": "attack",
-    "target": "2f8b49ff-77ba-4821-9d92-5121d6ef3ee7"
+    "target": "{{target_charid}}"
+}
+
+###
+
+// Do quest location
+POST http://localhost:5000/character/{{charid}}/actions/do quest
+Content-Type: application/json
+
+{
+    "name": "do quest",
+    "target": "fooo-bar"
 }
 
 ###
@@ -51,7 +75,7 @@ Content-Type: application/json
 
 {
     "id":"",
-    "name":"My Hero 1",
+    "name":"I'm target",
     "bio": "I was born many years ago",
     "archiType":"Mage",
     "picture":"http://my-picture.com/image123.png"
@@ -60,4 +84,4 @@ Content-Type: application/json
 ###
 
 // Get char
-GET http://localhost:5000/character/2f8b49ff-77ba-4821-9d92-5121d6ef3ee7
+GET http://localhost:5000/character/{{charid}}

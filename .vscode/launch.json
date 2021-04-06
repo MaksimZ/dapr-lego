@@ -180,6 +180,20 @@
                 "group": "Scenario",
                 "order": 3
             }
+        },
+        {
+            "name": "Char Api, Chars, Locs and Quests",
+            "configurations": [
+                "Launch w/Dapr (CharacterApi)",
+                "Launch w/Dapr (Characters)",
+                "Launch w/Dapr (Locations)",
+                "Launch w/Dapr (Quests)"
+            ],
+            "presentation": {
+                "hidden": false,
+                "group": "Scenario",
+                "order": 4
+            }
         }
     ]
 }
