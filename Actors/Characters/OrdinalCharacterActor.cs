@@ -6,6 +6,7 @@ using Dapr.Client;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace Actors.Characters
 {
@@ -19,6 +20,7 @@ namespace Actors.Characters
 		private const string BASIC_LOCATION_ACTOR = "Basic Location Actor";
 		private readonly DaprClient _daprClient;
 		private readonly ICharacterStoreFactory _characterStoreFactory;
+
 		public OrdinalCharacterActor(
 			ActorHost host,
 			DaprClient daprClient,
@@ -39,8 +41,16 @@ namespace Actors.Characters
 		}
 		public async Task Attack(string characterId)
 		{
+			Logger.LogInformation("{thisId} attack {targetId}", Id.GetId(), characterId);
 			var charImLookingFor = await _characterStoreFactory.CreateCharacterStore(characterId).GetCharacterAsync();
-			await SendSelfMessage($"I cant't fight. I'm just an ordinary person. Moreover, {charImLookingFor.Name} looks so powerful...");
+			if (charImLookingFor != null)
+			{
+				await SendSelfMessage($"I cant't fight. I'm just an ordinary person. Moreover, {charImLookingFor.Name} looks so powerful...");
+			}
+			else
+			{
+				await SendSelfMessage($"So strange to fight with fantasy character {characterId}");
+			}
 		}
 
 		public async Task DoQuest(Quest quest)
@@ -86,21 +96,25 @@ namespace Actors.Characters
 
 		public async Task MoveTo(Location location)
 		{
+			Logger.LogInformation("Moving {char} to location {location}", Id.GetId(), location?.Id);
 			// Am I know this location?
 			var knownLocations = await GetKnownLocationIdsState();
 			if (knownLocations.Contains(location.Id))
 			{
+				var myState = await GetState();
+
 				//We're leaving location
-				var currentLocationActorId = new Dapr.Actors.ActorId(this.Id.GetId());
+				Logger.LogInformation("Moving from {location}", myState.LocationId);
+				var currentLocationActorId = new Dapr.Actors.ActorId(myState.LocationId);
 				var currentLocationActor = this.ProxyFactory.CreateActorProxy<Common.ActorInterfaces.ILocationActor>(currentLocationActorId, BASIC_LOCATION_ACTOR);
 				await currentLocationActor.CharacterLeaveLocation(this.Id.GetId());
 
 				// And entering the new one
+				Logger.LogInformation("Moving to {location}", location.Id);
 				var targetLocationActorId = new Dapr.Actors.ActorId(location.Id);
 				var targetLocationActor = this.ProxyFactory.CreateActorProxy<Common.ActorInterfaces.ILocationActor>(targetLocationActorId, BASIC_LOCATION_ACTOR);
 				await targetLocationActor.CharacterEnterLocation(this.Id.GetId());
 
-				var myState = await GetState();
 				myState.LocationId = location.Id;
 				await this.StateManager.SetStateAsync(CURRENT_CHAR_STATE, myState);
 
@@ -108,6 +122,7 @@ namespace Actors.Characters
 			}
 			else
 			{
+				Logger.LogInformation("Char don't know location {locationid}", location.Id);
 				await SendSelfMessage($"I don't know how to get to {location.Id}");
 			}
 		}
@@ -176,6 +191,7 @@ namespace Actors.Characters
 		}
 		private async Task SendSelfMessage(string message)
 		{
+			Logger.LogInformation("Sending self message from {senderId} with text {message}", this.Id.GetId(), message);
 			await _daprClient.PublishEventAsync("messages-channel", "self", new Message
 			{
 				MessageText = message,
@@ -184,6 +200,7 @@ namespace Actors.Characters
 		}
 		private async Task SendMessage(string message, string characterId)
 		{
+			Logger.LogInformation("Sending personal message from {senderId} to {recepientId} with text {message}", this.Id.GetId(), characterId, message);
 			await _daprClient.PublishEventAsync("messages-channel", "personal", new Message
 			{
 				MessageText = message,

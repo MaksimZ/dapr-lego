@@ -16,10 +16,10 @@
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5000",
-"DAPR_HTTP_PORT": "3500",
-"DAPR_GRPC_PORT": "50010",
-"DAPR_HTTP_PORT": "3500",
-"DAPR_GRPC_PORT": "50010"
+                "DAPR_HTTP_PORT": "3500",
+                "DAPR_GRPC_PORT": "50010",
+                "DAPR_HTTP_PORT": "3500",
+                "DAPR_GRPC_PORT": "50010"
             },
             "postDebugTask": "daprd-down-characters-api",
             "presentation": {
@@ -40,8 +40,8 @@
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5001",
-"DAPR_HTTP_PORT": "3501",
-"DAPR_GRPC_PORT": "50011"
+                "DAPR_HTTP_PORT": "3501",
+                "DAPR_GRPC_PORT": "50011"
             },
             "postDebugTask": "daprd-down-location-api",
             "presentation": {
@@ -62,8 +62,8 @@
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5002",
-"DAPR_HTTP_PORT": "3502",
-"DAPR_GRPC_PORT": "50012"
+                "DAPR_HTTP_PORT": "3502",
+                "DAPR_GRPC_PORT": "50012"
             },
             "postDebugTask": "daprd-down-quest-api",
             "presentation": {
@@ -84,8 +84,8 @@
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5003",
-"DAPR_HTTP_PORT": "3503",
-"DAPR_GRPC_PORT": "50013"
+                "DAPR_HTTP_PORT": "3503",
+                "DAPR_GRPC_PORT": "50013"
             },
             "postDebugTask": "daprd-down-characters",
             "presentation": {
@@ -106,8 +106,8 @@
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5004",
-"DAPR_HTTP_PORT": "3504",
-"DAPR_GRPC_PORT": "50014"
+                "DAPR_HTTP_PORT": "3504",
+                "DAPR_GRPC_PORT": "50014"
             },
             "postDebugTask": "daprd-down-locations",
             "presentation": {
@@ -128,8 +128,8 @@
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_Kestrel__Endpoints__Http__Url": "http://localhost:5005",
-"DAPR_HTTP_PORT": "3505",
-"DAPR_GRPC_PORT": "50015"
+                "DAPR_HTTP_PORT": "3505",
+                "DAPR_GRPC_PORT": "50015"
             },
             "postDebugTask": "daprd-down-quests",
             "presentation": {
@@ -152,7 +152,7 @@
             ],
             "presentation": {
                 "hidden": false,
-                "group": "Scenarious",
+                "group": "Scenario",
                 "order": 1
             }
         },
@@ -164,8 +164,21 @@
             ],
             "presentation": {
                 "hidden": false,
-                "group": "Scenarious",
+                "group": "Scenario",
                 "order": 2
+            }
+        },
+        {
+            "name": "Character and Location",
+            "configurations": [
+                "Launch w/Dapr (CharacterApi)",
+                "Launch w/Dapr (Characters)",
+                "Launch w/Dapr (Locations)"
+            ],
+            "presentation": {
+                "hidden": false,
+                "group": "Scenario",
+                "order": 3
             }
         }
     ]

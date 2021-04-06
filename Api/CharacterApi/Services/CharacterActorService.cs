@@ -116,7 +116,11 @@ namespace CharacterApi.Services
 		public async Task<CharacterViewModel> GetSelf(string characterId)
 		{
 			var charData = await _characterStoreFactory.CreateCharacterStore(characterId).GetCharacterAsync();
-			return Helper.ConvertCharacter(charData);
+			var resultModel = Helper.ConvertCharacter(charData);
+			var proxy = await Helper.GetCharacterActorAsync(characterId, _characterStoreFactory);
+			var knownLocations = await proxy.GetKnownLocations();
+			resultModel.KnownLocations = knownLocations.Select(l => l.Id);
+			return resultModel;
 		}
 
 		public async Task PerformAction(string characterId, string action, string targetId)
@@ -125,7 +129,7 @@ namespace CharacterApi.Services
 			switch (action?.ToLowerInvariant())
 			{
 				case "move": await proxy.MoveTo(new Location { Id = targetId }); break;
-				case "atatck": await proxy.Attack(targetId); break;
+				case "attack": await proxy.Attack(targetId); break;
 				case "say":
 					await proxy.Speak(new Message
 					{
@@ -149,7 +153,7 @@ namespace CharacterApi.Services
 			// TODO: somehow identify character type, please
 			//  if no actor type known - we should create new Player
 			string actorType = characterType
-				?? (await storeFactory.CreateCharacterStore(characterId).GetCharacterAsync()).ActorType
+				?? (await storeFactory.CreateCharacterStore(characterId).GetCharacterAsync())?.ActorType
 				?? ActorFallbackType;
 
 			return ActorProxy.Create<ICharacterActor>(actorId, actorType);
@@ -172,7 +176,7 @@ namespace CharacterApi.Services
 				Bio = character.Bio,
 				Id = character.Id,
 				Name = character.Name,
-				ArchiType = mappedArhitype,
+				ArchiType = mappedArhitype
 			};
 		}
 	}

@@ -22,16 +22,17 @@ namespace Common.Services
 		}
 		public async Task<Character> GetCharacterAsync()
 		{
-			var item = await _daprClient.GetStateEntryAsync<Character>(_storeName, _storeItemId);
+			var (value, etag) = await _daprClient.GetStateAndETagAsync<Character>(_storeName, _storeItemId);
 
-			_etag = item.ETag;
-			return item.Value ?? new Character
-			{
-				Id = "fakeid",
-				ActorType = "faketype",
-				Bio = "fakebio",
-				Name = "fakename"
-			};
+			_etag = etag;
+			return value;
+			// return value ?? new Character
+			// {
+			// 	Id = "fakeid",
+			// 	ActorType = "faketype",
+			// 	Bio = "fakebio",
+			// 	Name = "fakename"
+			// };
 		}
 
 		public async Task StoreCharacterAsync(Character character)

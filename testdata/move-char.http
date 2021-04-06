@@ -1,0 +1,63 @@
+// Move Char
+
+POST http://localhost:5000/character/2f8b49ff-77ba-4821-9d92-5121d6ef3ee7/actions/move
+Content-Type: application/json
+
+{
+    "name": "move",
+    "target": "unknown-location"
+}
+
+###
+
+// Move knonw location
+POST http://localhost:5000/character/2f8b49ff-77ba-4821-9d92-5121d6ef3ee7/actions/move
+Content-Type: application/json
+
+{
+    "name": "move",
+    "target": "City:Foo|Street:West"
+}
+//City:Foo|Street:West
+//"CIty:Foo|Street:Bar"
+###
+
+// Observe location
+POST http://localhost:5000/character/2f8b49ff-77ba-4821-9d92-5121d6ef3ee7/actions/observe
+Content-Type: application/json
+
+{
+    "name": "observe",
+    "target": null
+}
+
+
+
+###
+// Attack char
+POST http://localhost:5000/character/2f8b49ff-77ba-4821-9d92-5121d6ef3ee7/actions/attack
+Content-Type: application/json
+
+{
+    "name": "attack",
+    "target": "2f8b49ff-77ba-4821-9d92-5121d6ef3ee7"
+}
+
+###
+
+// Create Char
+POST http://localhost:5000/character
+Content-Type: application/json
+
+{
+    "id":"",
+    "name":"My Hero 1",
+    "bio": "I was born many years ago",
+    "archiType":"Mage",
+    "picture":"http://my-picture.com/image123.png"
+}
+
+###
+
+// Get char
+GET http://localhost:5000/character/2f8b49ff-77ba-4821-9d92-5121d6ef3ee7
