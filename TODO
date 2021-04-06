@@ -4,9 +4,13 @@
 [X]  Design system
 [X]  Create build/debug config
 [X]  Design Actors Interfaces
+[_]  Quest Actor
+[_]  Location eventing Models
+[_]  Char current location
+[_]  Test Data init
 [_]  Improve services
 [_]  Design Resources in details
-[_]  Create components
+[x]  Create components
 [_]  ECR
 [_]  Deploy to k8s
 [X]  Create test scenario
