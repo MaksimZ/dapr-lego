@@ -46,7 +46,7 @@ namespace CharacterApi.Services
 				MessageText = $"The Hero {characterModel.Name} awaken. The Hero Bio was not easy: {characterModel.Bio}. And {characterModel.Name} came {archiType}"
 			});
 			try {
-				await proxy.MoveTo(new Location { Id = "CIty:Foo|Street:Bar" });
+				await proxy.MoveTo(new Location { Id = "market" });
 
 			} catch (ActorMethodInvocationException ex) {
 				_logger.LogError(ex, "Failed to move newly created character: {internal}", ex.GetBaseException());
