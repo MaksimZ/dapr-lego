@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Actors.AllActors
 {
@@ -19,30 +20,34 @@ namespace Actors.AllActors
 		private const string CURRENT_CHAR_STATE = "current-character";
 		private const string BASIC_LOCATION_ACTOR = "Basic Location Actor";
 		private readonly DaprClient _daprClient;
-		private readonly ICharacterStoreFactory _characterStoreFactory;
+		private readonly IRepositoriesFactory _repositoryFactory;
+		private ICharacterRepository _characterRepo;
 
 		public OrdinalCharacterActor(
 			ActorHost host,
 			DaprClient daprClient,
-			ICharacterStoreFactory characterStoreFactory)
+			IRepositoriesFactory repositoryFactory)
 			: base(host)
 		{
 			_daprClient = daprClient;
-			_characterStoreFactory = characterStoreFactory;
+			_repositoryFactory = repositoryFactory;
 		}
 
 		protected override Task OnActivateAsync()
 		{
+			_characterRepo = _repositoryFactory.CreateCharacterRepository(Id.GetId());
 			return base.OnActivateAsync();
 		}
 		protected override Task OnDeactivateAsync()
 		{
+			_characterRepo = null;
 			return base.OnDeactivateAsync();
 		}
 		public async Task Attack(string characterId)
 		{
 			Logger.LogInformation("{thisId} attack {targetId}", Id.GetId(), characterId);
-			var charImLookingFor = await _characterStoreFactory.CreateCharacterStore(characterId).GetCharacterAsync();
+
+			var charImLookingFor = await _repositoryFactory.CreateCharacterRepository(characterId).GetCharacterAsync();
 			if (charImLookingFor != null)
 			{
 				await SendSelfMessage($"I cant't fight. I'm just an ordinary person. Moreover, {charImLookingFor.Name} looks so powerful...");
@@ -188,17 +193,17 @@ namespace Actors.AllActors
 		}
 		private async Task<IEnumerable<string>> GetKnownCharacterIdsState()
 		{
-			return await this.StateManager.GetOrAddStateAsync(KNOWN_CHARACTERS_STATE, new string[0]);
+			return await this.StateManager.GetOrAddStateAsync(KNOWN_CHARACTERS_STATE, Array.Empty<string>());
 		}
 		private async Task<IEnumerable<string>> GetKnownQuestIdsState()
 		{
-			return await this.StateManager.GetOrAddStateAsync(KNOWN_QUESTS_STATE, new string[0]);
+			return await this.StateManager.GetOrAddStateAsync(KNOWN_QUESTS_STATE, Array.Empty<string>());
 		}
 		private async Task<IEnumerable<string>> GetKnownLocationIdsState()
 		{
 			return await this.StateManager.GetOrAddStateAsync(KNOWN_LOCATIONS_STATE, new string[] {
 				//at least initial location
-				"CIty:Foo|Street:Bar"
+				(await GetState()).LocationId
 			});
 		}
 		private async Task SendSelfMessage(string message)
@@ -221,10 +226,9 @@ namespace Actors.AllActors
 		}
 		private async Task SetCurrentLocation()
 		{
-			var characterStore = _characterStoreFactory.CreateCharacterStore(Id.GetId());
-			var storeCharacter = await characterStore.GetCharacterAsync();
+			var storeCharacter = await _characterRepo.GetCharacterAsync();
 			storeCharacter.LocationId = (await this.StateManager.GetStateAsync<OrdinalCharacterState>(CURRENT_CHAR_STATE)).LocationId;
-			await characterStore.StoreCharacterAsync(storeCharacter);
+			await _characterRepo.StoreCharacterAsync(storeCharacter);
 		}
 	}
 }

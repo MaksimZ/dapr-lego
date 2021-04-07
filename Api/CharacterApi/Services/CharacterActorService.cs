@@ -16,13 +16,13 @@ namespace CharacterApi.Services
 	public class CharacterActorSerivce : ICharacterService
 	{
 		private readonly DaprClient _daprClient;
-		private readonly ICharacterStoreFactory _characterStoreFactory;
+		private readonly IRepositoriesFactory _repositoriesFactory;
 		private readonly ILogger _logger;
 
-		public CharacterActorSerivce(DaprClient daprClient, ICharacterStoreFactory characterStoreFactory, ILogger<CharacterActorSerivce> logger)
+		public CharacterActorSerivce(DaprClient daprClient, IRepositoriesFactory repositoriesFactory, ILogger<CharacterActorSerivce> logger)
 		{
 			_daprClient = daprClient;
-			_characterStoreFactory = characterStoreFactory;
+			_repositoriesFactory = repositoriesFactory;
 			_logger = logger;
 		}
 
@@ -37,9 +37,9 @@ namespace CharacterApi.Services
 				Id = newCharId,
 				ActorType = archiType //TODO: character type here
 			};
-			var store = _characterStoreFactory.CreateCharacterStore(newCharId);
+			var store = _repositoriesFactory.CreateCharacterRepository(newCharId);
 			await store.StoreCharacterAsync(characterModel);
-			var proxy = await Helper.GetCharacterActorAsync(newCharId, _characterStoreFactory, archiType);
+			var proxy = await Helper.GetCharacterActorAsync(newCharId, _repositoriesFactory, archiType);
 			await proxy.Speak(new Message
 			{
 				RecepientId = newCharId,
@@ -99,10 +99,10 @@ namespace CharacterApi.Services
 
 		public async Task<IEnumerable<CharacterViewModel>> GetCharacters(string characterId)
 		{
-			var proxy = await Helper.GetCharacterActorAsync(characterId, _characterStoreFactory);
+			var proxy = await Helper.GetCharacterActorAsync(characterId, _repositoriesFactory);
 			var knownChars = await proxy.GetKnownCharacters();
 			var result = new List<CharacterViewModel>();
-			await foreach (var character in Helper.ConverViewAsync(knownChars, _characterStoreFactory))
+			await foreach (var character in Helper.ConverViewAsync(knownChars, _repositoriesFactory))
 			{
 				result.Add(character);
 			}
@@ -112,21 +112,21 @@ namespace CharacterApi.Services
 
 		public async Task<IEnumerable<Location>> GetLocations(string characterId)
 		{
-			var proxy = await Helper.GetCharacterActorAsync(characterId, _characterStoreFactory);
+			var proxy = await Helper.GetCharacterActorAsync(characterId, _repositoriesFactory);
 			return await proxy.GetKnownLocations();
 		}
 
 		public async Task<IEnumerable<Quest>> GetQuests(string characterId)
 		{
-			var proxy = await Helper.GetCharacterActorAsync(characterId, _characterStoreFactory);
+			var proxy = await Helper.GetCharacterActorAsync(characterId, _repositoriesFactory);
 			return await proxy.GetKnownQuests();
 		}
 
 		public async Task<CharacterViewModel> GetSelf(string characterId)
 		{
-			var charData = await _characterStoreFactory.CreateCharacterStore(characterId).GetCharacterAsync();
+			var charData = await _repositoriesFactory.CreateCharacterRepository(characterId).GetCharacterAsync();
 			var resultModel = Helper.ConvertCharacter(charData);
-			var proxy = await Helper.GetCharacterActorAsync(characterId, _characterStoreFactory);
+			var proxy = await Helper.GetCharacterActorAsync(characterId, _repositoriesFactory);
 			var knownLocations = await proxy.GetKnownLocations();
 			resultModel.KnownLocations = knownLocations.Select(l => l.Id).ToArray();
 			return resultModel;
@@ -134,7 +134,7 @@ namespace CharacterApi.Services
 
 		public async Task PerformAction(string characterId, string action, string targetId)
 		{
-			var proxy = await Helper.GetCharacterActorAsync(characterId, _characterStoreFactory);
+			var proxy = await Helper.GetCharacterActorAsync(characterId, _repositoriesFactory);
 			switch (action?.ToLowerInvariant())
 			{
 				case "move": await proxy.MoveTo(new Location { Id = targetId }); break;
@@ -156,22 +156,22 @@ namespace CharacterApi.Services
 	static class Helper
 	{
 		public static readonly string ActorFallbackType = "Ordinal Character";
-		public static async Task<ICharacterActor> GetCharacterActorAsync(string characterId, ICharacterStoreFactory storeFactory, string characterType = null)
+		public static async Task<ICharacterActor> GetCharacterActorAsync(string characterId, IRepositoriesFactory repositoriesFactory, string characterType = null)
 		{
 			var actorId = new ActorId(characterId);
 
 			//  if no actor type known - we should create new Player
 			string actorType = characterType
-				?? (await storeFactory.CreateCharacterStore(characterId).GetCharacterAsync())?.ActorType
+				?? (await repositoriesFactory.CreateCharacterRepository(characterId).GetCharacterAsync())?.ActorType
 				?? ActorFallbackType;
 
 			return ActorProxy.Create<ICharacterActor>(actorId, actorType);
 		}
-		public static async IAsyncEnumerable<CharacterViewModel> ConverViewAsync(IEnumerable<string> characterIds, ICharacterStoreFactory storeFactory)
+		public static async IAsyncEnumerable<CharacterViewModel> ConverViewAsync(IEnumerable<string> characterIds, IRepositoriesFactory repositoriesFactor)
 		{
 			foreach (var characterId in characterIds)
 			{
-				var store = storeFactory.CreateCharacterStore(characterId);
+				var store = repositoriesFactor.CreateCharacterRepository(characterId);
 				var characterData = await store.GetCharacterAsync();
 				yield return ConvertCharacter(characterData);
 			}

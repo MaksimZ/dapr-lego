@@ -32,7 +32,7 @@ namespace CharacterApi
 
 			services
 				.AddScoped<Services.ICharacterService, Services.CharacterActorSerivce>()
-				.AddCharacterStoreFactory();
+				.AddRepositoriesFactory();
 
 
 			services.AddSwaggerGen(c =>

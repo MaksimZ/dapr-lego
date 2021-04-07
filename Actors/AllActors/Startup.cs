@@ -32,7 +32,6 @@ namespace Actors.AllActors
 				.AddDapr();
 
 			services
-				.AddCharacterStoreFactory()
 				.AddRepositoriesFactory();
 
 			services.AddSwaggerGen(c =>
