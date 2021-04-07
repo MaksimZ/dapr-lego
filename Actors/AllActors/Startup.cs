@@ -45,6 +45,7 @@ namespace Actors.AllActors
 					config.Actors.RegisterActor<OrdinalCharacterActor>();
 					config.Actors.RegisterActor<BasicLocationActor>();
 					config.Actors.RegisterActor<BasicQuestActor>();
+					config.Actors.RegisterActor<MageCharacterActor>();
 				});
 		}
 

@@ -30,7 +30,8 @@ namespace CharacterApi.Controllers
 		[Consumes("application/json")]
 		public async Task<CharacterViewModel> CreateCharacter([FromBody] CharacterViewModel viewModel)
 		{
-			return await _characterService.CreateChar(viewModel.Name, viewModel.Bio);
+			// return await _characterService.CreateChar(viewModel.Name, viewModel.Bio);
+			return await  _characterService.CreateChar(viewModel.Name, viewModel.Bio, viewModel.LocationId, viewModel.ArchiType);
 		}
 
 		[HttpGet("{id}/characters")]

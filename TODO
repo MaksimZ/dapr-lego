@@ -6,9 +6,9 @@
 [X]  Design Actors Interfaces
 [X]  Quest Actor
 [_]  Location eventing Models
-[_]  good char creation
+[X]  good char creation
 [X]  Char current location
-[_]  Get quests from location
+[X]  Get quests from location
 [X]  Locations API
 [_]  Quests API
 [X]  Test Data init

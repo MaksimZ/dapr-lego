@@ -12,6 +12,7 @@ namespace CharacterApi.Services
         Task<IEnumerable<Models.CharacterViewModel>> GetCharacters(string characterId);
         Task<Models.CharacterViewModel> GetSelf(string characterId);
         Task<Models.CharacterViewModel> CreateChar(string name, string bio);
+        Task<Models.CharacterViewModel> CreateChar(string name, string bio, string location, string architype);
         Task PerformAction(string characterId, string action, string targetId);
 	}
 }

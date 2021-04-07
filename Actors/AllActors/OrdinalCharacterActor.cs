@@ -19,9 +19,9 @@ namespace Actors.AllActors
 		private const string KNOWN_QUESTS_STATE = "known-quests";
 		private const string CURRENT_CHAR_STATE = "current-character";
 		private const string BASIC_LOCATION_ACTOR = "Basic Location Actor";
-		private readonly DaprClient _daprClient;
-		private readonly IRepositoriesFactory _repositoryFactory;
-		private ICharacterRepository _characterRepo;
+		protected readonly DaprClient _daprClient;
+		protected readonly IRepositoriesFactory _repositoryFactory;
+		protected ICharacterRepository _characterRepo;
 
 		public OrdinalCharacterActor(
 			ActorHost host,
@@ -43,7 +43,7 @@ namespace Actors.AllActors
 			_characterRepo = null;
 			return base.OnDeactivateAsync();
 		}
-		public async Task Attack(string characterId)
+		public virtual async Task Attack(string characterId)
 		{
 			Logger.LogInformation("{thisId} attack {targetId}", Id.GetId(), characterId);
 
@@ -138,17 +138,44 @@ namespace Actors.AllActors
 			var myState = await GetState();
 			var actorId = new Dapr.Actors.ActorId(myState.LocationId);
 			var currentLocationActor = this.ProxyFactory.CreateActorProxy<Common.ActorInterfaces.ILocationActor>(actorId, BASIC_LOCATION_ACTOR);
+
 			var connectedLocations = await currentLocationActor.ObserveConnectedLocations();
 			var knownLocations = await GetKnownLocationIdsState();
 			var newLocations = knownLocations
 				.Concat(connectedLocations)
 				.Distinct()
+				.OrderBy(l => l)
 				.ToArray();
 			await this.StateManager.SetStateAsync(KNOWN_LOCATIONS_STATE, newLocations);
+
 			//TODO: send observation notification
 			await SendSelfMessage($"I've found new locations while observing current: {string.Join(", ", connectedLocations)}");
+
+			try
+			{
+
+				// TODO: get quests from location
+				var locationRepo = _repositoryFactory.CreateLocationRepository(myState.LocationId);
+
+				var questsToMerge = await Task.WhenAll(
+					GetKnownQuestIdsState(),
+					locationRepo.GetQuestsInLocationAsync()
+				);
+				var newQuests = questsToMerge
+					.SelectMany(q => q)
+					.Distinct()
+					.OrderBy(q => q)
+					.ToArray();
+				await Task.WhenAll(
+					this.StateManager.SetStateAsync(KNOWN_QUESTS_STATE, newQuests),
+					SendSelfMessage($"I've found new quests while observing current: {string.Join(", ", questsToMerge[1])}")
+				);
+			}
+			catch (Exception e)
+			{
+				Logger.LogError(e, "{actortype}::{actorid} failed to update quests from location", this.GetType(), Id.GetId());
+			}
 			await this.StateManager.SaveStateAsync();
-			// TODO: get quests from location
 		}
 
 		public async Task Speak(Message message)
@@ -164,14 +191,14 @@ namespace Actors.AllActors
 			}
 		}
 
-		public async Task<string> GetHit(string byCharacterId)
+		public virtual async Task<string> GetHit(string byCharacterId)
 		{
 			await SendMessage("Please don't hurt me!", byCharacterId);
 			await SendSelfMessage($"{byCharacterId} want's to kill me!");
 			return "cry, baby, cry";
 		}
 
-		private async Task<OrdinalCharacterState> GetState()
+		protected async Task<OrdinalCharacterState> GetState()
 		{
 			var currentState = await this.StateManager.TryGetStateAsync<OrdinalCharacterState>(CURRENT_CHAR_STATE);
 			if (currentState.HasValue)
@@ -191,22 +218,22 @@ namespace Actors.AllActors
 				return initialState;
 			}
 		}
-		private async Task<IEnumerable<string>> GetKnownCharacterIdsState()
+		protected async Task<IEnumerable<string>> GetKnownCharacterIdsState()
 		{
 			return await this.StateManager.GetOrAddStateAsync(KNOWN_CHARACTERS_STATE, Array.Empty<string>());
 		}
-		private async Task<IEnumerable<string>> GetKnownQuestIdsState()
+		protected async Task<IEnumerable<string>> GetKnownQuestIdsState()
 		{
 			return await this.StateManager.GetOrAddStateAsync(KNOWN_QUESTS_STATE, Array.Empty<string>());
 		}
-		private async Task<IEnumerable<string>> GetKnownLocationIdsState()
+		protected async Task<IEnumerable<string>> GetKnownLocationIdsState()
 		{
 			return await this.StateManager.GetOrAddStateAsync(KNOWN_LOCATIONS_STATE, new string[] {
 				//at least initial location
 				(await GetState()).LocationId
 			});
 		}
-		private async Task SendSelfMessage(string message)
+		protected async Task SendSelfMessage(string message)
 		{
 			Logger.LogInformation("Sending self message from {senderId} with text {message}", this.Id.GetId(), message);
 			await _daprClient.PublishEventAsync("messages-channel", "self", new Message
@@ -215,7 +242,7 @@ namespace Actors.AllActors
 				RecepientId = this.Id.GetId()
 			});
 		}
-		private async Task SendMessage(string message, string characterId)
+		protected async Task SendMessage(string message, string characterId)
 		{
 			Logger.LogInformation("Sending personal message from {senderId} to {recepientId} with text {message}", this.Id.GetId(), characterId, message);
 			await _daprClient.PublishEventAsync("messages-channel", "personal", new Message
@@ -224,7 +251,7 @@ namespace Actors.AllActors
 				RecepientId = characterId
 			});
 		}
-		private async Task SetCurrentLocation()
+		protected async Task SetCurrentLocation()
 		{
 			var storeCharacter = await _characterRepo.GetCharacterAsync();
 			storeCharacter.LocationId = (await this.StateManager.GetStateAsync<OrdinalCharacterState>(CURRENT_CHAR_STATE)).LocationId;

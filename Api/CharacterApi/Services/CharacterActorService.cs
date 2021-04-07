@@ -15,15 +15,51 @@ namespace CharacterApi.Services
 {
 	public class CharacterActorSerivce : ICharacterService
 	{
-		private readonly DaprClient _daprClient;
 		private readonly IRepositoriesFactory _repositoriesFactory;
 		private readonly ILogger _logger;
 
-		public CharacterActorSerivce(DaprClient daprClient, IRepositoriesFactory repositoriesFactory, ILogger<CharacterActorSerivce> logger)
+		public CharacterActorSerivce(IRepositoriesFactory repositoriesFactory, ILogger<CharacterActorSerivce> logger)
 		{
-			_daprClient = daprClient;
 			_repositoriesFactory = repositoriesFactory;
 			_logger = logger;
+		}
+
+		public async Task<CharacterViewModel> CreateChar(string name, string bio, string location, string architype)
+		{
+			var newCharId = System.Guid.NewGuid().ToString("D");
+			string archiType = (architype.ToLower()) switch
+			{
+				"mage" => "Mage Character",
+				_ => Helper.ActorFallbackType,
+			};
+
+			var characterModel = new Character
+			{
+				Name = name,
+				Bio = bio,
+				Id = newCharId,
+				ActorType = archiType, //TODO: character type here
+				LocationId = location
+			};
+			var store = _repositoriesFactory.CreateCharacterRepository(newCharId);
+			await store.StoreCharacterAsync(characterModel);
+			var proxy = await Helper.GetCharacterActorAsync(newCharId, _repositoriesFactory, archiType);
+			await proxy.Speak(new Message
+			{
+				RecepientId = newCharId,
+				MessageText = $"The Hero {characterModel.Name} awaken. The Hero Bio was not easy: {characterModel.Bio}. And {characterModel.Name} become {archiType}"
+			});
+			try
+			{
+				await proxy.MoveTo(new Location { Id = location });
+
+			}
+			catch (ActorMethodInvocationException ex)
+			{
+				_logger.LogError(ex, "Failed to move newly created character: {internal}", ex.GetBaseException());
+			}
+			//init char info
+			return Helper.ConvertCharacter(characterModel);
 		}
 
 		public async Task<CharacterViewModel> CreateChar(string name, string bio)
@@ -43,12 +79,15 @@ namespace CharacterApi.Services
 			await proxy.Speak(new Message
 			{
 				RecepientId = newCharId,
-				MessageText = $"The Hero {characterModel.Name} awaken. The Hero Bio was not easy: {characterModel.Bio}. And {characterModel.Name} came {archiType}"
+				MessageText = $"The Hero {characterModel.Name} awaken. The Hero Bio was not easy: {characterModel.Bio}. And {characterModel.Name} become {archiType}"
 			});
-			try {
+			try
+			{
 				await proxy.MoveTo(new Location { Id = "market" });
 
-			} catch (ActorMethodInvocationException ex) {
+			}
+			catch (ActorMethodInvocationException ex)
+			{
 				_logger.LogError(ex, "Failed to move newly created character: {internal}", ex.GetBaseException());
 			}
 			//init char info

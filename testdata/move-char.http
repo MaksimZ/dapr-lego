@@ -1,5 +1,5 @@
-@charid=6c35a292-66af-4734-9c41-b9de5a7548b6
-@target_charid=de9b3052-ff3f-427d-ba61-84ece657e272
+@charid=a9749f62-8315-4ece-b33d-e3b0646293ef
+@target_charid=1c34148f-e2c2-45c6-9393-f07e89217719
 @location1=inn
 @location2=CIty:Foo|Street:Bar
 ###
@@ -78,6 +78,7 @@ Content-Type: application/json
     "name":"Mr.Hero",
     "bio": "I was born many years ago",
     "archiType":"Mage",
+    "locationId": "market",
     "picture":"http://my-picture.com/image123.png"
 }
 
