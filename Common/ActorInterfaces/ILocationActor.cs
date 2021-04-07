@@ -8,7 +8,7 @@ namespace Common.ActorInterfaces
 	{
 		Task CharacterEnterLocation(string characterId);
 		Task CharacterLeaveLocation(string characterId);
-		Task<string> TakeQuest(string characterId, string questId);
+		Task<string> RequestQuest(string characterId, string questId);
         Task<IEnumerable<string>> ObserveConnectedLocations();
 	}
 }

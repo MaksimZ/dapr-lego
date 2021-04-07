@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Common.ActorInterfaces.Models;
+using Common.Services.Interfaces;
 
 namespace Actors.AllActors
 {
@@ -13,32 +14,87 @@ namespace Actors.AllActors
 	class BasicLocationActor : Actor, Common.ActorInterfaces.ILocationActor
 	{
 		private readonly DaprClient _daprClient;
-		public BasicLocationActor(ActorHost host, DaprClient daprClient)
+		private readonly IRepositoriesFactory _repositoriesFactory;
+		private ILocationRepository _locationRepo;
+		public BasicLocationActor(ActorHost host, DaprClient daprClient, IRepositoriesFactory repositoriesFactory)
 			: base(host)
 		{
 			_daprClient = daprClient;
-		}
-		public Task CharacterEnterLocation(string characterId)
-		{
-			return SendLocationEvent($"Entering locaiton {this.Id.GetId()}", characterId);
+			_repositoriesFactory = repositoriesFactory;
 		}
 
-		public Task CharacterLeaveLocation(string characterId)
+		protected override Task OnActivateAsync()
 		{
-			return SendLocationEvent($"Leaving location {this.Id.GetId()}", characterId);
+			_locationRepo = _repositoriesFactory.CreateLocationRepository(Id.GetId());
+			return base.OnActivateAsync();
 		}
 
-		public Task<IEnumerable<string>> ObserveConnectedLocations()
+		protected override Task OnDeactivateAsync()
 		{
-			return Task.FromResult(new string[] {
-				"City:Foo|Street:West",
-				"City:Foo|Street:South",
-				"City:Foo|Street:East",
-				"City:Foo|Street:North",
-			}.AsEnumerable());
+			_locationRepo = null;
+			return base.OnDeactivateAsync();
 		}
 
-		public Task<string> TakeQuest(string characterId, string questId)
+		public async Task CharacterEnterLocation(string characterId)
+		{
+			int tries = 0;
+			const int MAX_TRIES = 3;
+			bool saved;
+			do
+			{
+				tries++;
+				var chars = await _locationRepo.GetCharactersInLocationAsync();
+				var newChars = chars
+					.Append(characterId)
+					.OrderBy(s => s)
+					.ToArray();
+				saved = await _locationRepo.StoreCharactersInLocationAsync(newChars);
+			}
+			while (!saved && tries < MAX_TRIES);
+			if (tries >= MAX_TRIES)
+			{
+				//we have saving error
+			}
+			else
+			{   //everything is ok
+				await SendLocationEvent($"Entering locaiton {this.Id.GetId()}", characterId);
+
+			}
+		}
+
+		public async Task CharacterLeaveLocation(string characterId)
+		{
+			int tries = 0;
+			const int MAX_TRIES = 3;
+			bool saved;
+			do
+			{
+				tries++;
+				var chars = await _locationRepo.GetCharactersInLocationAsync();
+				var newChars = chars
+					.Append(characterId)
+					.OrderBy(s => s)
+					.ToArray();
+				saved = await _locationRepo.StoreCharactersInLocationAsync(newChars);
+			}
+			while (!saved && tries < MAX_TRIES);
+			if (tries >= MAX_TRIES)
+			{
+				//we have saving error
+			}
+			else
+			{   //everything is ok
+				await SendLocationEvent($"Leaving location {this.Id.GetId()}", characterId);
+			}
+		}
+
+		public async Task<IEnumerable<string>> ObserveConnectedLocations()
+		{
+			var location = await _locationRepo.GetLocationAsync();
+			return location.ConnectedLocations;
+		}
+
+		public Task<string> RequestQuest(string characterId, string questId)
 		{
 			Logger.LogInformation("Quest {questId} requested by {charId} in location {locId}", questId, characterId, this.Id.GetId());
 			return Task.FromResult(string.Empty);
