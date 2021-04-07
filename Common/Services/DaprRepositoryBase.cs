@@ -29,13 +29,18 @@ namespace Common.Services
 		protected async Task<T> GetItemAsync<T>(string itemName)
 		{
 			var (value, etag) = await _daprClient.GetStateAndETagAsync<T>(_storeName, $"{_storeItemId}-{itemName}");
-			_etags.AddOrUpdate(itemName, etag, (_,_) => etag);
+			_etags.AddOrUpdate(itemName, etag, (_, _) => etag);
 			return value;
 		}
 
-		protected async Task<bool> StoreItemAsync<T>(string itemName, T item) {
-			string etag = _etags[itemName];
-			return await _daprClient.TrySaveStateAsync(_storeName, _storeItemId, item, etag);
+		protected async Task<bool> StoreItemAsync<T>(string itemName, T item)
+		{
+			try {
+				await _daprClient.SaveStateAsync(_storeName, $"{_storeItemId}-{itemName}", item);
+				return true;
+			} catch {
+				return false;
+			}
 		}
 	}
 }
