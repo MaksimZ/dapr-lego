@@ -27,7 +27,14 @@ namespace LocationApi
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services
+				.AddControllers()
+				.AddDapr();
+
+			services
+				// .AddScoped<Services.ICharacterService, Services.CharacterActorSerivce>()
+				.AddRepositoriesFactory();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "LocationApi", Version = "v1" });
