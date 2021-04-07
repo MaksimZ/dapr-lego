@@ -91,7 +91,13 @@
                 "group": "Actors",
                 "order": 3
             }
-        }
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickProcess}"
+          }
     ],
     "compounds": [
         {
