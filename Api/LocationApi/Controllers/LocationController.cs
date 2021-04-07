@@ -33,7 +33,7 @@ namespace Api.LocationApi.Controllers
 			};
 		}
 
-		[HttpPost("{locationid")]
+		[HttpPost("{locationId}")]
 		public async Task<LocationResponseModel> CreateLocation(string locationId, [FromBody] LocationCreateRequestModel locationCreate)
 		{
 			var locationRepo = _repositoriesFactory.CreateLocationRepository(locationId);
@@ -63,7 +63,7 @@ namespace Api.LocationApi.Controllers
 			return await locationRepo.GetCharactersInLocationAsync();
 		}
 
-		[HttpGet("{locationId/quests")]
+		[HttpGet("{locationId}/quests")]
 		public async Task<IEnumerable<string>> GetQuestsInLocations(string locationId)
 		{
 			var locationRepo = _repositoriesFactory.CreateLocationRepository(locationId);

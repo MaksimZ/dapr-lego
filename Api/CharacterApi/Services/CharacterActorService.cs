@@ -128,7 +128,7 @@ namespace CharacterApi.Services
 			var resultModel = Helper.ConvertCharacter(charData);
 			var proxy = await Helper.GetCharacterActorAsync(characterId, _characterStoreFactory);
 			var knownLocations = await proxy.GetKnownLocations();
-			resultModel.KnownLocations = knownLocations.Select(l => l.Id);
+			resultModel.KnownLocations = knownLocations.Select(l => l.Id).ToArray();
 			return resultModel;
 		}
 
