@@ -1,0 +1,9 @@
+{
+    "name": "Inn",
+    "description": "descr",
+    "connectedLocations": [
+        "gates",
+        "market"
+    ],
+    "questsInLocation": []
+}

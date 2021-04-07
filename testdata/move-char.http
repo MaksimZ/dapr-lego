@@ -1,6 +1,6 @@
-@charid=205f1ce3-eb19-4136-904a-6fb4a77e0afc
+@charid=2d8af38d-73c8-414f-860a-645967764afe
 @target_charid=de9b3052-ff3f-427d-ba61-84ece657e272
-@location1=City:Foo|Street:West
+@location1=inn
 @location2=CIty:Foo|Street:Bar
 ###
 
@@ -89,5 +89,32 @@ GET http://localhost:5000/character/{{charid}}
 
 ###
 
+// Get chars
+GET http://localhost:5000/character/{{charid}}/characters
+
+###
+
 //Get allactors config
 GET http://localhost:3509/v1.0/metadata
+
+
+###
+
+//create location
+POST http://localhost:5001/location/someid
+Content-Type: application/json
+
+{
+    "name": "Some location",
+    "description": "that location has a lot of things, but unknown",
+    "connectedLocations": [
+        "City:Foo|Street:West",
+        "City:Foo|Street:East"
+    ],
+    "questsInLocation": []
+}
+
+###
+
+//Get location
+GET http://localhost:5001/location/inn

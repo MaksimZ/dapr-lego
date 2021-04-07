@@ -6,11 +6,13 @@
 [X]  Design Actors Interfaces
 [X]  Quest Actor
 [_]  Location eventing Models
+[_]  good char creation
 [X]  Char current location
 [_]  Get quests from location
 [X]  Locations API
 [_]  Quests API
-[_]  Test Data init
+[X]  Test Data init
+[_]  Setup Test Data
 [_]  Improve services
 [_]  Design Resources in details
 [x]  Create components
