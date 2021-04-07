@@ -32,7 +32,8 @@ namespace Actors.AllActors
 				.AddDapr();
 
 			services
-				.AddCharacterStoreFactory();
+				.AddCharacterStoreFactory()
+				.AddRepositoriesFactory();
 
 			services.AddSwaggerGen(c =>
 			{
@@ -42,9 +43,9 @@ namespace Actors.AllActors
 			services
 				.AddActors(config =>
 				{
-					config.Actors.RegisterActor<Actors.AllActors.OrdinalCharacterActor>();
-					config.Actors.RegisterActor<Actors.AllActors.BasicLocationActor>();
-					config.Actors.RegisterActor<Actors.AllActors.BasicQuestActor>();
+					config.Actors.RegisterActor<OrdinalCharacterActor>();
+					config.Actors.RegisterActor<BasicLocationActor>();
+					config.Actors.RegisterActor<BasicQuestActor>();
 				});
 		}
 

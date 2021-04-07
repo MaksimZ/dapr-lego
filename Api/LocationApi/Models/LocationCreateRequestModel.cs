@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 
-namespace Common.Entities
+namespace Api.LocationApi.Models
 {
-	public class Location
+	public class LocationCreateRequestModel
 	{
-		public string Id { get; set; }
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public IEnumerable<string> ConnectedLocations { get; set; }
+		public IEnumerable<string> QuestsInLocation { get; set; }
 	}
 }

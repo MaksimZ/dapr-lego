@@ -16,11 +16,11 @@ namespace Common.Services
 		: base(storeName, locationId, PREFIX, daprClient)
 		{
 		}
-		public Task<IEnumerable<string>> GetCharactersInLocationAsync() => GetItemAsync<IEnumerable<string>>(CHARS_ITEM_NAME);
+		public async Task<IEnumerable<string>> GetCharactersInLocationAsync() => await GetItemAsync<IEnumerable<string>>(CHARS_ITEM_NAME) ?? Array.Empty<string>();
 
 		public Task<Location> GetLocationAsync() => GetItemAsync<Location>(LOC_ITEM_NAME);
 
-		public Task<IEnumerable<string>> GetQuestsInLocationAsync() => GetItemAsync<IEnumerable<string>>(QUESTS_ITEM_NAME);
+		public async Task<IEnumerable<string>> GetQuestsInLocationAsync() => await GetItemAsync<IEnumerable<string>>(QUESTS_ITEM_NAME)  ?? Array.Empty<string>();
 
 		public Task<bool> SetLocationAsync(Location location) => StoreItemAsync(LOC_ITEM_NAME, location);
 

@@ -9,6 +9,7 @@ using Dapr.Actors;
 using Dapr.Actors.Client;
 using Common.ActorInterfaces;
 using Common.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace CharacterApi.Services
 {
@@ -16,11 +17,13 @@ namespace CharacterApi.Services
 	{
 		private readonly DaprClient _daprClient;
 		private readonly ICharacterStoreFactory _characterStoreFactory;
+		private readonly ILogger _logger;
 
-		public CharacterActorSerivce(DaprClient daprClient, ICharacterStoreFactory characterStoreFactory)
+		public CharacterActorSerivce(DaprClient daprClient, ICharacterStoreFactory characterStoreFactory, ILogger<CharacterActorSerivce> logger)
 		{
 			_daprClient = daprClient;
 			_characterStoreFactory = characterStoreFactory;
+			_logger = logger;
 		}
 
 		public async Task<CharacterViewModel> CreateChar(string name, string bio)
@@ -42,7 +45,12 @@ namespace CharacterApi.Services
 				RecepientId = newCharId,
 				MessageText = $"The Hero {characterModel.Name} awaken. The Hero Bio was not easy: {characterModel.Bio}. And {characterModel.Name} came {archiType}"
 			});
-			await proxy.MoveTo(new Location { Id = "CIty:Foo|Street:Bar" });
+			try {
+				await proxy.MoveTo(new Location { Id = "CIty:Foo|Street:Bar" });
+
+			} catch (ActorMethodInvocationException ex) {
+				_logger.LogError(ex, "Failed to move newly created character: {internal}", ex.GetBaseException());
+			}
 			//init char info
 			return Helper.ConvertCharacter(characterModel);
 		}

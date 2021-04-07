@@ -1,3 +1,4 @@
+using System;
 using Dapr.Actors.Runtime;
 using Dapr.Client;
 using System.Collections.Generic;
@@ -39,21 +40,29 @@ namespace Actors.AllActors
 		{
 			int tries = 0;
 			const int MAX_TRIES = 3;
-			bool saved;
-			do
+			bool saved = false;
+			try
 			{
-				tries++;
-				var chars = await _locationRepo.GetCharactersInLocationAsync();
-				var newChars = chars
-					.Append(characterId)
-					.OrderBy(s => s)
-					.ToArray();
-				saved = await _locationRepo.StoreCharactersInLocationAsync(newChars);
+				do
+				{
+					tries++;
+					var chars = await _locationRepo.GetCharactersInLocationAsync();
+					var newChars = chars
+						.Append(characterId)
+						.OrderBy(s => s)
+						.ToArray();
+					saved = await _locationRepo.StoreCharactersInLocationAsync(newChars);
+				}
+				while (!saved && tries < MAX_TRIES);
 			}
-			while (!saved && tries < MAX_TRIES);
+			catch (Exception ex)
+			{
+				Logger.LogError(ex, "Failed to store character {char} in locaiton {loc}", characterId, Id.GetId());
+			}
 			if (tries >= MAX_TRIES)
 			{
 				//we have saving error
+				Logger.LogError("Failed to store location {loc} entering characters due tries exceeded", Id.GetId());
 			}
 			else
 			{   //everything is ok
@@ -66,21 +75,29 @@ namespace Actors.AllActors
 		{
 			int tries = 0;
 			const int MAX_TRIES = 3;
-			bool saved;
-			do
+			bool saved = false;
+			try
 			{
-				tries++;
-				var chars = await _locationRepo.GetCharactersInLocationAsync();
-				var newChars = chars
-					.Append(characterId)
-					.OrderBy(s => s)
-					.ToArray();
-				saved = await _locationRepo.StoreCharactersInLocationAsync(newChars);
+				do
+				{
+					tries++;
+					var chars = await _locationRepo.GetCharactersInLocationAsync();
+					var newChars = chars
+						.Where(c => !characterId.Equals(c))
+						.OrderBy(s => s)
+						.ToArray();
+					saved = await _locationRepo.StoreCharactersInLocationAsync(newChars);
+				}
+				while (!saved && tries < MAX_TRIES);
 			}
-			while (!saved && tries < MAX_TRIES);
+			catch (Exception ex)
+			{
+				Logger.LogError(ex, "Failed to remove character {char} from locaiton {loc}", characterId, Id.GetId());
+			}
 			if (tries >= MAX_TRIES)
 			{
 				//we have saving error
+				Logger.LogError("Failed to store location {loc} leaving characters due tries exceeded", Id.GetId());
 			}
 			else
 			{   //everything is ok
@@ -91,7 +108,10 @@ namespace Actors.AllActors
 		public async Task<IEnumerable<string>> ObserveConnectedLocations()
 		{
 			var location = await _locationRepo.GetLocationAsync();
-			return location.ConnectedLocations;
+			if (location == null) {
+				Logger.LogWarning("Location {loc} has no information", Id.GetId());
+			}
+			return location?.ConnectedLocations ?? Array.Empty<string>();
 		}
 
 		public Task<string> RequestQuest(string characterId, string questId)

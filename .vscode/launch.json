@@ -125,6 +125,18 @@
                 "group": "Scenario",
                 "order": 2
             }
+        },
+        {
+            "name": "Location API",
+            "configurations": [
+                "Launch w/Dapr (LocationApi)",
+                "Launch w/Dapr (Actors)"
+            ],
+            "presentation": {
+                "hidden": false,
+                "group": "Scenario",
+                "order": 2
+            }
         }
     ]
 }

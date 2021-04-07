@@ -8,7 +8,7 @@
 [_]  Location eventing Models
 [X]  Char current location
 [_]  Get quests from location
-[_]  Locations API
+[X]  Locations API
 [_]  Quests API
 [_]  Test Data init
 [_]  Improve services

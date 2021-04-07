@@ -33,6 +33,29 @@ namespace Api.LocationApi.Controllers
 			};
 		}
 
+		[HttpPost("{locationid")]
+		public async Task<LocationResponseModel> CreateLocation(string locationId, [FromBody] LocationCreateRequestModel locationCreate)
+		{
+			var locationRepo = _repositoriesFactory.CreateLocationRepository(locationId);
+			var location = new Common.Entities.Location
+			{
+				Id = locationId,
+				ConnectedLocations = locationCreate.ConnectedLocations,
+				Description = locationCreate.Description
+			};
+			await Task.WhenAll(
+				locationRepo.SetLocationAsync(location),
+				locationRepo.SetQuestsInLocationAsync(locationCreate.QuestsInLocation)
+			);
+
+			return new LocationResponseModel
+			{
+				Id = locationId,
+				ConnectedLocations = location.ConnectedLocations,
+				Description = location.Description
+			};
+		}
+
 		[HttpGet("{locationId}/characters")]
 		public async Task<IEnumerable<string>> GetCharactersInLocation(string locationId)
 		{
