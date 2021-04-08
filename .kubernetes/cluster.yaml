@@ -1,4 +1,4 @@
---- 
+---
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
@@ -58,8 +58,8 @@ nodeGroups:
   - name: ng-1
     instanceType: t2.micro
     minSize: 1
-    maxSize: 6
-    desiredCapacity: 2
+    maxSize: 12
+    desiredCapacity: 4
     privateNetworking: false # if only 'Private' subnets are given, this must be enabled
     iam:
       attachPolicyARNs:

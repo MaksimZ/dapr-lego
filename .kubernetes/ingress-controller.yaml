@@ -20,3 +20,15 @@ spec:
             backend:
               serviceName: ssl-redirect
               servicePort: use-annotation
+          - path: /character
+            backend:
+              serviceName: "character-api"
+              servicePort: 80
+          - path: /location
+            backend:
+              serviceName: "location-api"
+              servicePort: 80
+          - path: /quest
+            backend:
+              serviceName: "quest-api"
+              servicePort: 80
