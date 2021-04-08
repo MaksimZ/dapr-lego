@@ -10,16 +10,16 @@
 [X]  Char current location
 [X]  Get quests from location
 [X]  Locations API
-[_]  Quests API
+[X]  Quests API
 [X]  Test Data init
-[_]  Setup Test Data
+[X]  Setup Test Data
 [_]  Improve services
 [_]  Design Resources in details
 [x]  Create components
-[_]  ECR
-[_]  Deploy to k8s
+[X]  ECR
+[X]  Deploy to k8s
 [X]  Create test scenario
-[_]  Creation/deployment/improvement showcase scenario
+[X]  Creation/deployment/improvement showcase scenario
 [_]  Craete client
 [_]  Optimize resource usage
 [_]  Ahtorization for services
