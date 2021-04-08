@@ -42,7 +42,7 @@ spec:
             # AWS VPC ID this ingress controller will use to create AWS resources.
             # If unspecified, it will be discovered from ec2metadata.
             # - --aws-vpc-id=vpc-xxxxxx
-            # - --aws-vpc-id=VPCID
+            - --aws-vpc-id=vpc-0830336e
 
             # AWS region this ingress controller will operate in.
             # If unspecified, it will be discovered from ec2metadata.

@@ -99,6 +99,9 @@ GET http://localhost:5000/character/{{charid}}/characters
 GET http://localhost:3509/v1.0/metadata
 
 
+
+GET http://localhost:1234/dapr/config
+
 ###
 
 //create location
@@ -118,4 +121,4 @@ Content-Type: application/json
 ###
 
 //Get location
-GET http://localhost:5001/location/inn
+GET http://localhost:1112/location/inn

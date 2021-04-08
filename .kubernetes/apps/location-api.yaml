@@ -39,7 +39,7 @@ spec:
     spec:
       serviceAccountName: default
       containers:
-      - name: flow-normalization
+      - name: location-api
         image: "833200667006.dkr.ecr.eu-west-1.amazonaws.com/api.locationapi:latest"
         imagePullPolicy: Always
         resources:
