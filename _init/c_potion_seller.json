@@ -1,8 +1,8 @@
 {
     "id": "",
-    "name": "",
-    "bio": "",
-    "archiType": "",
-    "locationId": "",
+    "name": "Mr. Oan Potty",
+    "bio": "Many years learned to make potions. And it's the only thing he knows",
+    "archiType": "Potion Seller",
+    "locationId": "market",
     "knownLocations": []
 }

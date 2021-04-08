@@ -1,8 +1,8 @@
 {
     "id": "",
-    "name": "",
-    "bio": "",
-    "archiType": "",
-    "locationId": "",
-    "knownLocations": ["foo"]
+    "name": "Gatekeeper",
+    "bio": "Old warior, veteran. But now he's watchdog.",
+    "archiType": "Warrior",
+    "locationId": "gates",
+    "knownLocations": []
 }

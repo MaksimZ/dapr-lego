@@ -1,8 +1,8 @@
 {
     "id": "",
-    "name": "",
-    "bio": "",
-    "archiType": "",
-    "locationId": "",
+    "name": "Goblin 1",
+    "bio": "Green goblin",
+    "archiType": "Goblim",
+    "locationId": "mine",
     "knownLocations": []
 }

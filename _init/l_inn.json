@@ -1,9 +1,9 @@
 {
     "name": "Inn",
-    "description": "descr",
+    "description": "It's local Inn and Tavern. Folks spend alot of time discussing rumors and drink.",
     "connectedLocations": [
         "gates",
         "market"
     ],
-    "questsInLocation": []
+    "questsInLocation": ["collect_rumors"]
 }

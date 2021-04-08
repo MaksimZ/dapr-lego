@@ -1,8 +1,8 @@
 {
     "id": "",
-    "name": "",
-    "bio": "",
-    "archiType": "",
-    "locationId": "",
+    "name": "Smitty",
+    "bio": "Orphan living in downtown' hideouts. Pickpocketing on the market to pay for place in local gang.",
+    "archiType": "Ordinal Character",
+    "locationId": "market",
     "knownLocations": []
 }

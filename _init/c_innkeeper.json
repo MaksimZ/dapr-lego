@@ -1,8 +1,8 @@
 {
     "id": "",
-    "name": "",
+    "name": "Innkeeper John",
     "bio": "",
-    "archiType": "",
-    "locationId": "",
+    "archiType": "Ordinal Character",
+    "locationId": "inn",
     "knownLocations": []
 }

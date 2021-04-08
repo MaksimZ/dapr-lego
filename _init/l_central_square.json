@@ -1,6 +1,6 @@
 {
-    "name": "name",
-    "description": "descr",
-    "connectedLocations": [],
-    "questsInLocation": []
+    "name": "Central Sqare",
+    "description": "Town has only one square with townhall placed here. In front of townhall locals tries to burn a witch.",
+    "connectedLocations": ["gates","market"],
+    "questsInLocation": ["rescue_witch"]
 }

@@ -1,6 +1,6 @@
 {
-    "name": "name",
-    "description": "descr",
-    "connectedLocations": [],
-    "questsInLocation": []
+    "name": "Town Gates",
+    "description": "Old but strong gates used to protect town. Guards check permission papers both come and leave people. It's not good for me.",
+    "connectedLocations": ["central_sqare", "dark_forest", "mine", "inn"],
+    "questsInLocation": ["sneak_thru_gates"]
 }

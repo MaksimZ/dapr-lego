@@ -1,8 +1,8 @@
 {
     "id": "",
-    "name": "",
-    "bio": "",
-    "archiType": "",
-    "locationId": "",
+    "name": "Burning Witch",
+    "bio": "Just a youg sorcerer with wild powers.",
+    "archiType": "Witch",
+    "locationId": "central_square",
     "knownLocations": []
 }

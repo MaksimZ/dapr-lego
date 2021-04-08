@@ -1,6 +1,6 @@
 {
-    "name": "name",
-    "description": "descr",
-    "connectedLocations": [],
-    "questsInLocation": []
+    "name": "Dark Forest",
+    "description": "Narrow trailway leads deepper under the cover of old trees. Is it human skull lies on the way?",
+    "connectedLocations": ["gates"],
+    "questsInLocation": ["fight_ogre"]
 }

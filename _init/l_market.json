@@ -1,6 +1,6 @@
 {
-    "name": "name",
-    "description": "descr",
-    "connectedLocations": [],
-    "questsInLocation": []
+    "name": "Local Market",
+    "description": "It's noisy place where you can buy or sell something. Oh, and someone has been just pickpocketed. And young justler seems goes to hideout.",
+    "connectedLocations": ["downtown", "inn", "central_square"],
+    "questsInLocation": ["catch_jostler"]
 }

@@ -1,8 +1,8 @@
 {
     "id": "",
-    "name": "",
-    "bio": "",
-    "archiType": "",
-    "locationId": "",
+    "name": "Dragen Khor",
+    "bio": "Dwarf. Trade armors and weapons.",
+    "archiType": "Weapon Seller",
+    "locationId": "market",
     "knownLocations": []
 }

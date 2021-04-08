@@ -1,6 +1,6 @@
 {
-    "name": "name",
-    "description": "descr",
-    "connectedLocations": [],
+    "name": "Downtown",
+    "description": "A bit... ruined place. Old houses and dark side streets provide hideouts for different needs.",
+    "connectedLocations": ["market"],
     "questsInLocation": []
 }
