@@ -31,3 +31,4 @@ echo "Done"
 # echo "Adding user $USER_NAME to cluster..."
 # eksctl create iamidentitymapping --cluster $CLUSTER_NAME-cluster --arn arn:aws:iam::IAM_USERID:user/$USER_NAME --username $USER_NAME --group system:masters
 # echo "Done."
+
