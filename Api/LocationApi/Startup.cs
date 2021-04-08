@@ -32,7 +32,6 @@ namespace LocationApi
 				.AddDapr();
 
 			services
-				// .AddScoped<Services.ICharacterService, Services.CharacterActorSerivce>()
 				.AddRepositoriesFactory();
 
             services.AddSwaggerGen(c =>
